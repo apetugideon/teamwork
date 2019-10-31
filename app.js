@@ -7,7 +7,7 @@ const logger        = require('morgan');
 
 const userRoutes    = require('./routes/users');
 
-/*const userRoutes    = require('./routes/users');
+/*
 const employeeRoutes= require('./routes/employees');
 const gifRoutes     = require('./routes/gifs');
 const articleRoutes = require('./routes/articles');
