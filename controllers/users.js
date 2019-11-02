@@ -45,7 +45,7 @@ exports.signin = (request, response, next) => {
     const user = data.rows[0];
     bcrypt.compare(request.body.password, user.password).then((valid) => {
       if (!valid) {
-        return response.status(401).json({
+        response.status(401).json({
           error: new Error('Incorrect Password')
         });
       }
@@ -60,7 +60,7 @@ exports.signin = (request, response, next) => {
       });
     })
     .catch((error) => {
-      return response.status(401).json({
+      response.status(401).json({
         error: 'Incorrect Password'
       });
     });
