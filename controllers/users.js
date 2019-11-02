@@ -69,7 +69,6 @@ exports.signin = (request, response, next) => {
   .catch(error => {
     response.status(500).json({
       error:error
-    }); 
-    dbconn.end().then(() => console.log('Connection closed'));  
+    });  
   });
 };
