@@ -5,8 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node test.js",
-    "lint": "eslint.js"
+    "test": "node test.js"
   },
   "license": "ISC",
   "engines": {
