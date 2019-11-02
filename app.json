@@ -1,9 +1,11 @@
 {
-  "addons": [
-
-  ],
-  "buildpacks": [
-    {
+  "addons": [{
+      "plan": "heroku-postgresql:hobby-dev",
+      "options": {
+        "version": "10.10"
+      }
+   }],
+  "buildpacks": [{
       "url": "heroku/nodejs"
     }
   ],
