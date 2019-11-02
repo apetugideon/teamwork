@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node test.js",
+    "test": "mocha --timeout 3000 --recursive",
     "lint": "./node_modules/.bin/eslint"
   },
   "license": "ISC",
@@ -26,9 +26,12 @@
     "pg-promise": "^9.3.3"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "eslint": "^6.6.0",
     "eslint-config-airbnb-base": "14.0.0",
     "eslint-plugin-import": "2.18.2",
+    "mocha": "^6.2.2",
     "nodemon": "^1.19.4",
     "pluralize": "^8.0.0",
     "request": "2.88.0",

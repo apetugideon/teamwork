@@ -27,13 +27,11 @@ exports.signup = (req, res, next) => {
           "userId":userId
         }
       });
-      dbconn.end().then(() => console.log('Connection closed'));
     })
     .catch((error) => {
       res.status(500).json({
         error: error
       });
-      dbconn.end().then(() => console.log('Connection closed'));
     });
   });
 };
@@ -64,7 +62,6 @@ exports.signin = (request, response, next) => {
         error: 'Incorrect Password'
       });
     });
-    dbconn.end().then(() => console.log('Connection closed'));
   })
   .catch(error => {
     response.status(500).json({
