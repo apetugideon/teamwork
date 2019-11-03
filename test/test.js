@@ -8,13 +8,13 @@ let should = chai.should();
 let expect = chai.expect;
 
 let server = '';
-if (benv) {
+/*if (benv) {
   server = "https://teamwork-heroku-product.herokuapp.com";
 } else {
   server = "http://localhost:5000";
-}
+}*/
 
-server = "https://teamwork-heroku-product.herokuapp.com:";
+server = "https://teamwork-heroku-product.herokuapp.com";
 
 
 chai.use(chaiHttp);
