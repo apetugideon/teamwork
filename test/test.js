@@ -48,7 +48,7 @@ describe('Create Account, Login and Check Token', () => {
   describe('/POST Create User', () => {
     it('it should Create Users, Login, and check token', (done) => {
       chai.request(server)
-        .post('/api/v1/auth/create-user')
+        .post('/api/v1/auth/create-user/')
         .send(register_details)
         .end((err, res) => {
           res.should.have.status(201);
@@ -62,7 +62,7 @@ describe('Create Account, Login and Check Token', () => {
   describe('/POST Sign IN', () => {
     it('It Should Sign A User and Check Token', (done) => {
       chai.request(server)
-        .post('/api/v1/auth/signin')
+        .post('/api/v1/auth/signin/')
         .send(login_details)
         .end((err, res) => {
           res.should.have.status(200);
