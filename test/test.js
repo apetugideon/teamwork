@@ -25,10 +25,10 @@ let login_details = {
 }
 
 let register_details = {
-  "firstName": "test70",
-  "lastName": "test70",
-  "email": "test70@gmail.com",
-  "password": "test70",
+  "firstName": "toyin",
+  "lastName": "toyin",
+  "email": "toyin@gmail.com",
+  "password": "toyin",
   "gender": "MALE",
   "jobRole": "ADMIN",
   "department": "ACCOUNT",
