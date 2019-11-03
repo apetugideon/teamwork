@@ -9,8 +9,8 @@ chai.use(chaiHttp);
 describe ("User Management Module Testing", function(){
 
   let login_details = {
-    "email": "test70@gmail.com",
-    'password': 'test70'
+    "email": "test7@gmail.com",
+    'password': 'test7'
   }
   
   let register_details = {
@@ -34,5 +34,16 @@ describe ("User Management Module Testing", function(){
         });
       done();
   });
-//...     
+
+  it("Should Should Log A User In", (done) => {
+    chai.request(server)
+      .post("/api/v1/auth/signin/")
+      .send(login_details)
+      .end((err, res) => {
+          res.should.have.status(200);
+          console.log("Test Passed");
+      });
+    done();
+  });
+
 })
