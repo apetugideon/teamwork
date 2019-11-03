@@ -6,7 +6,7 @@ let chaiHttp = require('chai-http');
 let should = chai.should();
 let expect = chai.expect;
 
-let server = (env == "test") ? "http://localhost:5000" : "https://teamwork-heroku-product.herokuapp.com:";
+let server = (env == "test") ? "http://localhost:5000" : "https://teamwork-heroku-product.herokuapp.com";
 
 chai.use(chaiHttp);
 
