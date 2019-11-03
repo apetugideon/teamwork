@@ -41,6 +41,7 @@ describe('Create Account, Login and Check Token', () => {
         .post('/api/v1/auth/create-user')
         .send(register_details)
         .end((err, res) => {
+          console.log("Gideon is here");
           //res.should.have.status(201);
           expect(res.statusCode).to.equal(201);
           done();
