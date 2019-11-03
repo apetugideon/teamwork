@@ -9,14 +9,6 @@ let expect = chai.expect;
 
 let server = require("../server");
 
-/*if (benv) {
-  server = "https://teamwork-heroku-product.herokuapp.com/api/v1/auth";
-} else {
-  server = "http://localhost:5000/api/v1/auth";
-}**/
-
-//server = "https://teamwork-heroku-product.herokuapp.com:";
-
 
 chai.use(chaiHttp);
 

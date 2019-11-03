@@ -4,7 +4,6 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "prepublish": "mocha",
     "start": "node server.js",
     "test": "mocha --timeout 3000 --recursive",
     "lint": "./node_modules/.bin/eslint"
