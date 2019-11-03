@@ -8,27 +8,27 @@ let should = chai.should();
 let expect = chai.expect;
 
 let server = '';
-/*if (benv) {
-  server = "https://teamwork-heroku-product.herokuapp.com";
+if (benv) {
+  server = "https://teamwork-heroku-product.herokuapp.com/api/v1/auth";
 } else {
-  server = "http://localhost:5000";
-}*/
+  server = "http://localhost:5000/api/v1/auth";
+}
 
-server = 'https://teamwork-heroku-product.herokuapp.com/api/v1/auth';
+//server = "https://teamwork-heroku-product.herokuapp.com:";
 
 
 chai.use(chaiHttp);
 
 let login_details = {
-  "email": "test70@gmail.com",
-  'password': 'test70'
+  "email": "test3@gmail.com",
+  'password': 'test2'
 }
 
 let register_details = {
-  "firstName": "tooyin",
-  "lastName": "tooyin",
-  "email": "tooyin@gmail.com",
-  "password": "tooyin",
+  "firstName": "toyin",
+  "lastName": "toyin",
+  "email": "toyin@gmail.com",
+  "password": "toyin",
   "gender": "MALE",
   "jobRole": "ADMIN",
   "department": "ACCOUNT",
