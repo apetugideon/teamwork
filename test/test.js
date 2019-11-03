@@ -1,16 +1,13 @@
-let benv  = process.env.NODE_ENV;
-const env = process.env.NODE_ENV || 'test';
-
-const dbconn = require("../dbconn");
+//let benv  = process.env.NODE_ENV;
+//const env = process.env.NODE_ENV || 'test';
+let server = require("../server");
 let chai = require('chai');
 let chaiHttp = require('chai-http');
-let should = chai.should();
 let expect = chai.expect;
-
-let server = require("../server");
-
-
 chai.use(chaiHttp);
+let should = chai.should();
+
+const dbconn = require("../dbconn");
 
 let login_details = {
   "email": "test3@gmail.com",

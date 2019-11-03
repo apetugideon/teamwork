@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "mocha --timeout 3000 --recursive",
+    "test": "mocha",
     "lint": "./node_modules/.bin/eslint"
   },
   "license": "ISC",
