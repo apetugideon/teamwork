@@ -7,12 +7,13 @@ let chaiHttp = require('chai-http');
 let should = chai.should();
 let expect = chai.expect;
 
-let server = '';
-if (benv) {
+let server = require("../server");
+
+/*if (benv) {
   server = "https://teamwork-heroku-product.herokuapp.com/api/v1/auth";
 } else {
   server = "http://localhost:5000/api/v1/auth";
-}
+}**/
 
 //server = "https://teamwork-heroku-product.herokuapp.com:";
 
@@ -48,7 +49,7 @@ describe('Create Account, Login and Check Token', () => {
   describe('/POST Create User', () => {
     it('it should Create Users, Login, and check token', (done) => {
       chai.request(server)
-        .post('/create-user')
+        .post('/api/v1/auth/create-user')
         .send(register_details)
         .end((err, res) => {
           res.should.have.status(201);
@@ -62,7 +63,7 @@ describe('Create Account, Login and Check Token', () => {
   describe('/POST Sign IN', () => {
     it('It Should Sign A User and Check Token', (done) => {
       chai.request(server)
-        .post('/signin')
+        .post('/api/v1/auth/signin')
         .send(login_details)
         .end((err, res) => {
           res.should.have.status(200);
