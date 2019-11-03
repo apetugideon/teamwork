@@ -1,6 +1,6 @@
 //let benv  = process.env.NODE_ENV;
 //const env = process.env.NODE_ENV || 'test';
-let server = require("../server");
+let server = "https://teamwork-heroku-product.herokuapp.com"; //require("../server");
 let chai = require('chai');
 let chaiHttp = require('chai-http');
 const { expect } = chai;
@@ -57,6 +57,7 @@ describe('Create Account, Login and Check Token', () => {
         .post('/api/v1/auth/signin')
         .send(login_details)
         .end((err, res) => {
+          console.log(res.body);
           //res.should.have.status(200);
           expect(res.body.status).to.equal("success");
           //res.body.data.should.have.property('token'); 
