@@ -6,7 +6,7 @@ let should = chai.should();
 chai.use(chaiHttp);
 
 
-describe ("CRUD OPERATIONS", function(){
+describe ("User Management Module Testing", function(){
 
   let login_details = {
     "email": "test70@gmail.com",
@@ -24,15 +24,15 @@ describe ("CRUD OPERATIONS", function(){
     "address": "123, Avenue"
   };
 
-  it("Should add Books in DB", (done) => {
+  it("Should Should Create A New User", (done) => {
       chai.request(server)
         .post("/api/v1/auth/create-user/")
         .send(register_details)
         .end((err, res) => {
             res.should.have.status(201);
-            console.log("Response Body:", res.body);
+            console.log("Test Passed");
         });
-      done()
-  })
+      done();
+  });
 //...     
 })
