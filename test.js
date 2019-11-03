@@ -1,17 +1,63 @@
-/*const { spawn } = require('child_process');
-const request = require('request');
-const test = require('tape');
-const child = spawn('node', ['index.js']);
+var assert = require("assert");
+let chai = require("chai");
+let chaiHttp = require("chai-http");
+let server = require("../server");
+let should = chai.should();
+chai.use(chaiHttp);
 
 
-test('responds to requests', (t) => {
-  t.plan(3);
-  child.stdout.on('data', () => {
-    request('http://127.0.0.1:5000', (error, response, body) => {
-      child.kill();
-      t.false(error);
-      t.equal(response.statusCode, 200);
-      t.notEqual(body.indexOf('Hello World'), -1);
-    });
+//const dbconn = require("../dbconn");
+
+let login_details = {
+  "email": "test70@gmail.com",
+  'password': 'test70'
+}
+
+let register_details = {
+  "firstName": "toyin",
+  "lastName": "toyin",
+  "email": "toyin@gmail.com",
+  "password": "toyin",
+  "gender": "MALE",
+  "jobRole": "ADMIN",
+  "department": "ACCOUNT",
+  "address": "123, Avenue"
+};
+
+
+describe('Create Account, Login and Check Token', () => {
+
+  describe('/POST Create User', () => {
+    it('it should Create Users, Login, and check token', (done) => {
+      chai.request(server)
+        .post('/api/v1/auth/create-user')
+        .send(register_details)
+        .end((err, res) => {
+          console.log(res.body);
+          //res.should.have.status(201);
+          expect(res.statusCode).to.equal(201);
+          done();
+        })
+    })
   });
-});*/
+
+
+  describe('/POST Sign IN', () => {
+    it('It Should Sign A User and Check Token', (done) => {
+      chai.request(server)
+        .post('/api/v1/auth/signin')
+        .send(login_details)
+        .end((err, res) => {
+          //console.log(res.body);
+          //res.should.have.status(200);
+          expect(res.body.status).to.equal("success");
+          //res.body.data.should.have.property('token'); 
+          done();
+        })
+    })
+  });
+});
+
+
+
+
