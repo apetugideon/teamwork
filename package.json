@@ -35,6 +35,7 @@
     "nodemon": "^1.19.4",
     "pluralize": "^8.0.0",
     "request": "2.88.0",
+    "supertest": "^4.0.2",
     "tape": "4.11.0"
   }
 }
