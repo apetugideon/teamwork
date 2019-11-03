@@ -5,9 +5,7 @@ let server = require("../server");
 let should = chai.should();
 chai.use(chaiHttp);
 
-
 describe ("User Management Module Testing", function(){
-
   let login_details = {
     "email": "test7@gmail.com",
     'password': 'test7'
