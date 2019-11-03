@@ -25,10 +25,10 @@ let login_details = {
 }
 
 let register_details = {
-  "firstName": "toyin",
-  "lastName": "toyin",
-  "email": "toyin@gmail.com",
-  "password": "toyin",
+  "firstName": "tooyin",
+  "lastName": "tooyin",
+  "email": "tooyin@gmail.com",
+  "password": "tooyin",
   "gender": "MALE",
   "jobRole": "ADMIN",
   "department": "ACCOUNT",
@@ -53,7 +53,7 @@ describe('Create Account, Login and Check Token', () => {
         .end((err, res) => {
           res.should.have.status(201);
           expect(res.statusCode).to.equal(201);
-          done();
+          //done();
         })
     })
   });
@@ -68,7 +68,7 @@ describe('Create Account, Login and Check Token', () => {
           res.should.have.status(200);
           expect(res.body.status).to.equal("success");
           res.body.data.should.have.property('token'); 
-          done();
+          //done();
         })
     })
   });
