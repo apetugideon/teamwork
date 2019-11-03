@@ -8,11 +8,11 @@ const { expect } = chai;
 chai.use(chaiHttp);
 let should = chai.should();
 
-const dbconn = require("../dbconn");
+//const dbconn = require("../dbconn");
 
 let login_details = {
-  "email": "test3@gmail.com",
-  'password': 'test2'
+  "email": "test8@gmail.com",
+  'password': 'test8'
 }
 
 let register_details = {
@@ -57,7 +57,6 @@ describe('Create Account, Login and Check Token', () => {
         .post('/api/v1/auth/signin')
         .send(login_details)
         .end((err, res) => {
-          console.log(res);
           //res.should.have.status(200);
           expect(res.body.status).to.equal("success");
           //res.body.data.should.have.property('token'); 
