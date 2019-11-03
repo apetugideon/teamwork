@@ -3,7 +3,8 @@
 let server = require("../server");
 let chai = require('chai');
 let chaiHttp = require('chai-http');
-let expect = chai.expect;
+const { expect } = chai;
+
 chai.use(chaiHttp);
 let should = chai.should();
 
@@ -41,7 +42,7 @@ describe('Create Account, Login and Check Token', () => {
         .post('/api/v1/auth/create-user')
         .send(register_details)
         .end((err, res) => {
-          console.log("Gideon is here");
+          console.log(res);
           //res.should.have.status(201);
           expect(res.statusCode).to.equal(201);
           done();
@@ -56,6 +57,7 @@ describe('Create Account, Login and Check Token', () => {
         .post('/api/v1/auth/signin')
         .send(login_details)
         .end((err, res) => {
+          console.log(res);
           //res.should.have.status(200);
           expect(res.body.status).to.equal("success");
           //res.body.data.should.have.property('token'); 
