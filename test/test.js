@@ -14,7 +14,7 @@ let server = '';
   server = "http://localhost:5000";
 }*/
 
-server = "https://teamwork-heroku-product.herokuapp.com";
+server = 'https://teamwork-heroku-product.herokuapp.com/api/v1/auth';
 
 
 chai.use(chaiHttp);
@@ -48,12 +48,12 @@ describe('Create Account, Login and Check Token', () => {
   describe('/POST Create User', () => {
     it('it should Create Users, Login, and check token', (done) => {
       chai.request(server)
-        .post('/api/v1/auth/create-user/')
+        .post('/create-user')
         .send(register_details)
         .end((err, res) => {
           res.should.have.status(201);
           expect(res.statusCode).to.equal(201);
-          //done();
+          done();
         })
     })
   });
@@ -62,13 +62,13 @@ describe('Create Account, Login and Check Token', () => {
   describe('/POST Sign IN', () => {
     it('It Should Sign A User and Check Token', (done) => {
       chai.request(server)
-        .post('/api/v1/auth/signin/')
+        .post('/signin')
         .send(login_details)
         .end((err, res) => {
           res.should.have.status(200);
           expect(res.body.status).to.equal("success");
           res.body.data.should.have.property('token'); 
-          //done();
+          done();
         })
     })
   });
