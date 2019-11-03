@@ -1,6 +1,6 @@
 //let benv  = process.env.NODE_ENV;
 //const env = process.env.NODE_ENV || 'test';
-let server = "https://teamwork-heroku-product.herokuapp.com"; //require("../server");
+let server = require("../server");
 let chai = require('chai');
 let chaiHttp = require('chai-http');
 const { expect } = chai;
