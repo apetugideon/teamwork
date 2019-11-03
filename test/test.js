@@ -1,11 +1,13 @@
-process.env.NODE_ENV = 'test';
+const env = process.env.NODE_ENV || 'test';
 
 const dbconn = require("../dbconn");
 let chai = require('chai');
 let chaiHttp = require('chai-http');
 let should = chai.should();
 let expect = chai.expect;
-let server = 'http://localhost:5000';
+//let server = 'http://localhost:5000';
+let server = "https://teamwork-heroku-product.herokuapp.com:" + process.env.PORT;
+
 chai.use(chaiHttp);
 
 let login_details = {
@@ -43,7 +45,6 @@ describe('Create Account, Login and Check Token', () => {
           res.should.have.status(201);
           expect(res.statusCode).to.equal(201);
           done();
-          
         })
     })
   });
