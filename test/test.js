@@ -7,12 +7,14 @@ let chaiHttp = require('chai-http');
 let should = chai.should();
 let expect = chai.expect;
 
-let server = 'http://localhost:5000';
+let server = '';
 if (benv) {
   server = "https://teamwork-heroku-product.herokuapp.com";
 } else {
   server = "http://localhost:5000";
 }
+
+server = "https://teamwork-heroku-product.herokuapp.com:";
 
 
 chai.use(chaiHttp);
