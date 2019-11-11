@@ -31,9 +31,6 @@ describe ("User Management Module Testing", function(){
       .end((err, res) => {
         res.should.have.status(201);
 
-        //Test User Token
-        const token = res.body.data.token;
-
         //Test User Login
         describe('Test Log User In', () => {
           it("Should Log A User In", (done) => {
@@ -43,28 +40,32 @@ describe ("User Management Module Testing", function(){
             .end((err, res) => {
               res.should.have.status(200);
               console.log("Test Passed");
+
+              //Test User Token
+              const token = res.body.data.token;
+              
+              //Delete Test User
+              describe('Delete Test User', () => {
+                it('it should DELETE a test user given the id', (done) => {
+                  chai.request(server)
+                  .delete('/api/v1/auth/'+res.body.data.userId)
+                  .set({"Authorization" : "Bearer " + token})
+                  .end((err, res) => {
+                    //console.log(err, res);
+                    res.should.have.status(201);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('status').eql('success');
+                    console.log("TestUser Deleted");
+                    done();
+                  });
+                });
+              });
+
               done();
             });
           });
         });
 
-        //Delete Test User
-        describe('Delete Test User', () => {
-          it('it should DELETE a test user given the id', (done) => {
-            chai.request(server)
-            .delete('/api/v1/auth/'+res.body.data.userId)
-            .set({"Authorization" : "Bearer " + token})
-            .end((err, res) => {
-              //console.log(err, res);
-              res.should.have.status(201);
-              res.body.should.be.a('object');
-              res.body.should.have.property('status').eql('success');
-              console.log("TestUser Deleted");
-              done();
-            });
-          });
-        });
-        
         done();
       });
   });
