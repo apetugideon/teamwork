@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken');
 var assert = require("assert");
 let chai = require("chai");
 let chaiHttp = require("chai-http");
@@ -31,6 +32,7 @@ describe ("User Management Module Testing", function(){
       .end((err, res) => {
         res.should.have.status(201);
 
+        jwt.destroy(res.body.data.token);
         console.log("1 Debugging === ", res.body.data.userId, res.body.data.token);
 
         //Test User Login
