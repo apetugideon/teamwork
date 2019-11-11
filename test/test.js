@@ -52,7 +52,7 @@ describe ("User Management Module Testing", function(){
         describe('Delete Test User', () => {
           it('it should DELETE a test user given the id', (done) => {
             chai.request(server)
-            .delete('/api/v1/auth/deleteAdminTestUser/'+res.body.data.userId)
+            .delete('/api/v1/auth/delete-admin-test-user/'+res.body.data.userId)
             .set({"Authorization" : "Bearer " + token})
             .end((err, res) => {
               console.log(err, res);
