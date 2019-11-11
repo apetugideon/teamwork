@@ -31,6 +31,8 @@ describe ("User Management Module Testing", function(){
       .end((err, res) => {
         res.should.have.status(201);
 
+        console.log("1 Debugging === ", res.body.data.userId, res.body.data.token);
+
         //Test User Login
         describe('Test Log User In', () => {
           it("Should Log A User In", (done) => {
@@ -44,7 +46,7 @@ describe ("User Management Module Testing", function(){
               //Test User Token
               const token = response.body.data.token;
               
-              console.log("Debugging === " ,response.body.data.userId, response.body.data.token);
+              console.log("Debugging === ", response.body.data.userId, response.body.data.token);
 
               //Delete Test User
               describe('Delete Test User', () => {
