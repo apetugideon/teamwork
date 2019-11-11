@@ -35,7 +35,7 @@ describe ("User Management Module Testing", function(){
         //Test User Login
         it("Should Log A User In", (done) => {
           chai.request(server)
-            .post("/api/v1/auth/signin/")
+            .post("/api/v1/auth/signin")
             .send({"email": "testcaseuser@gmail.com",'password': 'testcaseuser'})
             .end((err, res) => {
                 res.should.have.status(200);
