@@ -77,6 +77,7 @@ exports.deleteTestUserNow = (request, response, next) => {
     });
   })
   .catch((error) => {
+    console.log("error ===== ", error);
     response.status(500).json({
       error:error
     });
