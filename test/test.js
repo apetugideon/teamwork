@@ -41,6 +41,7 @@ describe ("User Management Module Testing", function(){
             .post("/api/v1/auth/signin")
             .send({"email": "testcaseuser@gmail.com",'password': 'testcaseuser'})
             .end((err, res) => {
+              console.log(res);
               res.should.have.status(200);
               console.log("Test Passed");
               done();
@@ -55,7 +56,6 @@ describe ("User Management Module Testing", function(){
             .delete('/api/v1/auth/deleteAdminTestUser/'+res.body.data.userId)
             .set({"Authorization" : "Bearer " + token})
             .end((err, res) => {
-              console.log("Delete === ",res);
               res.should.have.status(201);
               res.body.should.be.a('object');
               res.body.should.have.property('status').eql('success');
