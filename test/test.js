@@ -31,6 +31,7 @@ describe ("User Management Module Testing", function(){
       .end((err, res) => {
         res.should.have.status(201);
 
+        console.log(res.body.data);
         //Test User Token
         const token = res.body.data.token;
 
