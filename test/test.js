@@ -29,15 +29,17 @@ describe ("User Management Module Testing", function(){
         const token = res.body.data.token;
 
         //Test User Login
-        it("Should Log A User In", (done) => {
-          chai.request(server)
-          .post("/api/v1/auth/signin")
-          .send({"email": "testcaseuser@gmail.com",'password': 'testcaseuser'})
-          .end((err, res) => {
-            console.log("login === ",res);
-            res.should.have.status(200);
-            console.log("Test Passed");
-            done();
+        describe('Test Log User In', () => {
+          it("Should Log A User In", (done) => {
+            chai.request(server)
+            .post("/api/v1/auth/signin")
+            .send({"email": "testcaseuser@gmail.com",'password': 'testcaseuser'})
+            .end((err, res) => {
+              console.log("login === ",res);
+              res.should.have.status(200);
+              console.log("Test Passed");
+              done();
+            });
           });
         });
 
