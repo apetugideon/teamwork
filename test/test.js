@@ -37,24 +37,24 @@ describe ("User Management Module Testing", function(){
             chai.request(server)
             .post("/api/v1/auth/signin")
             .send({"email": "testcaseuser@gmail.com",'password': 'testcaseuser'})
-            .end((err, res) => {
-              res.should.have.status(200);
+            .end((err, response) => {
+              response.should.have.status(200);
               console.log("Test Passed");
 
               //Test User Token
-              const token = res.body.data.token;
+              const token = response.body.data.token;
               
               //Delete Test User
               describe('Delete Test User', () => {
                 it('it should DELETE a test user given the id', (done) => {
                   chai.request(server)
-                  .delete('/api/v1/auth/deleteuser/'+res.body.data.userId)
+                  .delete('/api/v1/auth/deleteuser/'+response.body.data.userId)
                   .set({"Authorization" : "Bearer " + token})
-                  .end((err, res) => {
-                    console.log("2res === " + token, res.body);
-                    res.should.have.status(201);
-                    res.body.should.be.a('object');
-                    res.body.should.have.property('status').eql('success');
+                  .end((err, response2) => {
+                    console.log("2res === " + token, response2.body);
+                    response2.should.have.status(201);
+                    response2.body.should.be.a('object');
+                    response2.body.should.have.property('status').eql('success');
                     console.log("TestUser Deleted");
                     done();
                   });
