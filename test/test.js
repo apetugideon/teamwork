@@ -21,6 +21,8 @@ describe ("User Management Module Testing", function(){
         "address": "123, Avenue"
       })
       .end((err, res) => {
+
+        console.log(res);
         res.should.have.status(201);
 
         //Test User Token
