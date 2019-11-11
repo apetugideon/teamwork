@@ -51,7 +51,7 @@ describe ("User Management Module Testing", function(){
                   .delete('/api/v1/auth/deleteuser/'+response.body.data.userId)
                   .set({"Authorization" : "Bearer " + token})
                   .end((err, response2) => {
-                    console.log("2res === " + token, response2.body);
+                    console.log("2res === " + token, response2);
                     response2.should.have.status(201);
                     response2.body.should.be.a('object');
                     response2.body.should.have.property('status').eql('success');
