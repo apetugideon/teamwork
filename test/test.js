@@ -41,6 +41,8 @@ describe ("User Management Module Testing", function(){
               res.should.have.status(200);
               console.log("Test Passed");
 
+              console.log("1res ==== ", res);
+
               //Test User Token
               const token = res.body.data.token;
               
@@ -51,7 +53,7 @@ describe ("User Management Module Testing", function(){
                   .delete('/api/v1/auth/'+res.body.data.userId)
                   .set({"Authorization" : "Bearer " + token})
                   .end((err, res) => {
-                    console.log(err, res);
+                    console.log("2res === ", res);
                     res.should.have.status(201);
                     res.body.should.be.a('object');
                     res.body.should.have.property('status').eql('success');
