@@ -23,14 +23,12 @@ describe ("User Management Module Testing", function(){
         "address": "123, Avenue"
       })
       .end((err, res) => {//process.env.NODE_ENV
-
         console.log("server === ", process.env.NODE_ENV);
-        console.log(server);
-        console.log(res);
         res.should.have.status(201);
 
         //Test User Token
         const token = res.body.data.token;
+        console.log("token === ", token);
 
         //Test User Login
         it("Should Log A User In", (done) => {
