@@ -41,7 +41,6 @@ describe ("User Management Module Testing", function(){
             .post("/api/v1/auth/signin")
             .send({"email": "testcaseuser@gmail.com",'password': 'testcaseuser'})
             .end((err, res) => {
-              console.log(res);
               res.should.have.status(200);
               console.log("Test Passed");
               done();
