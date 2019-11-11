@@ -23,12 +23,10 @@ describe ("User Management Module Testing", function(){
         "address": "123, Avenue"
       })
       .end((err, res) => {//process.env.NODE_ENV
-        console.log("server === ", process.env.NODE_ENV);
         res.should.have.status(201);
 
         //Test User Token
         const token = res.body.data.token;
-        console.log("token === ", token);
 
         //Test User Login
         it("Should Log A User In", (done) => {
@@ -36,6 +34,7 @@ describe ("User Management Module Testing", function(){
           .post("/api/v1/auth/signin")
           .send({"email": "testcaseuser@gmail.com",'password': 'testcaseuser'})
           .end((err, res) => {
+            console.log("login === ",res);
             res.should.have.status(200);
             console.log("Test Passed");
             done();
@@ -49,6 +48,7 @@ describe ("User Management Module Testing", function(){
             .delete('/api/v1/auth/deleteAdminTestUser/'+res.body.data.userId)
             .set({"Authorization" : "Bearer " + token})
             .end((err, res) => {
+              console.log("login === ",res);
               res.should.have.status(201);
               res.body.should.be.a('object');
               res.body.should.have.property('status').eql('success');
