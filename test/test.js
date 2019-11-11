@@ -3,7 +3,7 @@ process.env.NODE_ENV = "test";
 var assert = require("assert");
 let chai = require("chai");
 let chaiHttp = require("chai-http");
-let server = require("../server");
+let server = "https://teamwork-heroku-staging.herokuapp.com"; //require("../server");
 let should = chai.should();
 chai.use(chaiHttp);
 
@@ -11,7 +11,7 @@ describe ("User Management Module Testing", function(){
 
   it("Should Should Create A New User", (done) => {
       chai.request(server)
-      .post("/api/v1/auth/create-user/")
+      .post("/api/v1/auth/create-user")
       .send({
         "firstName": "testcaseuser",
         "lastName": "testcaseuser",
