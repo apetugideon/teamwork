@@ -126,7 +126,7 @@ exports.deleteGif = (request, response, next) => {
   .then((data) => {
     const gifUrl = data.rows[0].image;
     console.log("gifUrl", gifUrl);
-    cloud.uploader.destroy(gifUrl, function(result) { 
+    //cloud.uploader.destroy(gifUrl, function(result) { 
       console.log("result", result); 
       dbconn.query('DELETE FROM gifs WHERE id = $1', [request.params.id])
       .then((data2) => {
@@ -140,7 +140,7 @@ exports.deleteGif = (request, response, next) => {
           error:error
         });
       });
-    });
+    //});
   })
   .catch((error) => {
     response.status(500).json({
