@@ -5,9 +5,9 @@ let server = ""; //require("../server");
 let should = chai.should();
 chai.use(chaiHttp);
 
-const env = process.env.NODE_ENV || 'development';
+const env = process.env.NODE_ENV;
 if (env === 'development') {
-  server = require("../server");
+  server = "https://teamwork-heroku-staging.herokuapp.com"; //require("../server");
 } else {
   server = "https://teamwork-heroku-staging.herokuapp.com";
 }
