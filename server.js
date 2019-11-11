@@ -1,6 +1,8 @@
 const http = require('http');
 const app = require('./app');
 
+process.env.UV_THREADPOOL_SIZE = 128;
+
 const server = http.createServer(app);
 
 const normalizePort = (val) => {

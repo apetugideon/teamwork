@@ -2,8 +2,6 @@ const bcrypt   = require('bcrypt');
 const jwt      = require('jsonwebtoken');
 const dbconn   = require(".././dbconn");
 
-//console.log(dbconn);
-
 exports.signup = (req, res, next) => {
   bcrypt.hash(req.body.password, 10).then((hash) => {
     dbconn.query('INSERT INTO users(firstName, lastName, email, password, gender, jobRole, department, address) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id', [
@@ -18,7 +16,7 @@ exports.signup = (req, res, next) => {
     ])
     .then((data) => {
       const userId = data.rows[0].id;
-      const token  = jwt.sign({userId:userId},'RANDOM_TOKEN_SECRET',{expiresIn:'24h'});
+      const token  = jwt.sign({userId:userId}, 'RANDOM_TOKEN_SECRET', {expiresIn:'24h'});
       res.status(201).json({
         "status":"success",
         "data":{
@@ -67,5 +65,20 @@ exports.signin = (request, response, next) => {
     response.status(500).json({
       error:"Something is wrong"
     });  
+  });
+};
+
+exports.deleteTestUserNow = (request, response, next) => {
+  dbconn.query('DELETE FROM users WHERE id = $1', [request.params.id])
+  .then((data) => {
+    response.status(201).json({
+      "status":"success",
+      "data":data.rows[0]
+    });
+  })
+  .catch((error) => {
+    response.status(500).json({
+      error:error
+    });
   });
 };

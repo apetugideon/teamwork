@@ -4,16 +4,18 @@ module.exports = (request, response, next) => {
   try {
     const token = request.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-    const userId = decodedToken.userId;
+    const { userId } = decodedToken;
 
-    if ((request.body.userId) && (request.body.userId != userId)) {
-      throw 'Invalid User ID';
+    if ((request.body.userId) && (request.body.userId !== userId)) {
+      response.status(401).json({
+        error: 'Wrong User Credentials',
+      });
     } else {
       next();
     }
-  } catch {
+  } catch (e) {
     response.status(401).json({
-      error: new Error('Invalid Request')
-    })
+      error: 'Unauthorized Request',
+    });
   }
-}
+};
