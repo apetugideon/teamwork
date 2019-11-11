@@ -20,8 +20,10 @@ describe ("User Management Module Testing", function(){
         "department": "ACCOUNT",
         "address": "123, Avenue"
       })
-      .end((err, res) => {
+      .end((err, res) => {//process.env.NODE_ENV
 
+        console.log("server === ", process.env.NODE_ENV);
+        console.log(server);
         console.log(res);
         res.should.have.status(201);
 
