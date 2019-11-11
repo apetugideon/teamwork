@@ -24,7 +24,7 @@ describe ("Setup Test User", function() {
     .end((err, res) => {
 
       //Test User Token
-      console.log(res);
+      console.log(err);
       const token = res.body.data.token;
 
       //Gifs Testing Start
