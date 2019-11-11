@@ -1,11 +1,17 @@
-process.env.NODE_ENV = "test";
-
 var assert = require("assert");
 let chai = require("chai");
 let chaiHttp = require("chai-http");
-let server = "https://teamwork-heroku-staging.herokuapp.com"; //require("../server");
+let server = ""; //require("../server");
 let should = chai.should();
 chai.use(chaiHttp);
+
+const env = process.env.NODE_ENV || 'development';
+if (env === 'development') {
+  server = require("../server");
+} else {
+  server = "https://teamwork-heroku-staging.herokuapp.com";
+}
+
 
 describe ("User Management Module Testing", function(){
 
@@ -22,7 +28,7 @@ describe ("User Management Module Testing", function(){
         "department": "ACCOUNT",
         "address": "123, Avenue"
       })
-      .end((err, res) => {//process.env.NODE_ENV
+      .end((err, res) => {
         res.should.have.status(201);
 
         //Test User Token
@@ -35,7 +41,6 @@ describe ("User Management Module Testing", function(){
             .post("/api/v1/auth/signin")
             .send({"email": "testcaseuser@gmail.com",'password': 'testcaseuser'})
             .end((err, res) => {
-              console.log("login === ",res);
               res.should.have.status(200);
               console.log("Test Passed");
               done();
@@ -50,7 +55,7 @@ describe ("User Management Module Testing", function(){
             .delete('/api/v1/auth/deleteAdminTestUser/'+res.body.data.userId)
             .set({"Authorization" : "Bearer " + token})
             .end((err, res) => {
-              console.log("login === ",res);
+              console.log("Delete === ",res);
               res.should.have.status(201);
               res.body.should.be.a('object');
               res.body.should.have.property('status').eql('success');
