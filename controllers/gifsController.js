@@ -125,9 +125,7 @@ exports.deleteGif = (request, response, next) => {
   dbconn.query('SELECT * FROM gifs WHERE id = $1', [request.params.id])
   .then((data) => {
     const gifUrl = data.rows[0].image;
-    console.log("gifUrl", gifUrl);
-    //cloud.uploader.destroy(gifUrl, function(result) { 
-      console.log("result", result); 
+    cloud.uploader.destroy(gifUrl, function(result) {  
       dbconn.query('DELETE FROM gifs WHERE id = $1', [request.params.id])
       .then((data2) => {
         response.status(201).json({
@@ -140,7 +138,7 @@ exports.deleteGif = (request, response, next) => {
           error:error
         });
       });
-    //});
+    });
   })
   .catch((error) => {
     response.status(500).json({

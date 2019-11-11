@@ -71,6 +71,7 @@ exports.signin = (request, response, next) => {
 exports.deleteTestUserNow = (request, response, next) => {
   dbconn.query('DELETE FROM users WHERE id = $1', [request.params.id])
   .then((data) => {
+    console.log(data);
     response.status(201).json({
       "status":"success",
       "data":data.rows[0]
