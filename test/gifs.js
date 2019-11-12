@@ -38,6 +38,7 @@ describe ("Setup Test User", function() {
             .get('/api/v1/gifs')
             .set({"Authorization" : "Bearer " + token})
             .end((err, res) => {
+              console.log(res);
               res.should.have.status(200);
               res.body.should.be.a('array');
               //res.body.length.should.be.eql(0);
