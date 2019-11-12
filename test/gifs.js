@@ -2,11 +2,12 @@ let dbconn = require("../dbconn");
 let assert = require("assert");
 let chai = require("chai");
 let chaiHttp = require("chai-http");
-let server = require("../server");
+//let server = require("../server");
+let server = "https://teamwork-heroku-staging.herokuapp.com";
 let should = chai.should();
 chai.use(chaiHttp);
 
-//server = "https://teamwork-heroku-staging.herokuapp.com";
+
 
 describe ("Setup Test User", function() {
   it("Should Create A New Test User", (done) => {

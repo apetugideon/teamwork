@@ -1,11 +1,10 @@
 var assert = require("assert");
 let chai = require("chai");
 let chaiHttp = require("chai-http");
-let server = require("../server");
+//let server = require("../server");
+let server = "https://teamwork-heroku-staging.herokuapp.com";
 let should = chai.should();
 chai.use(chaiHttp);
-
-//server = "https://teamwork-heroku-staging.herokuapp.com";
 
 describe ("User Management Module Testing", function(){
   it("Should Should Create A New User", (done) => {
