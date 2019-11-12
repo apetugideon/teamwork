@@ -12,7 +12,7 @@ chai.use(chaiHttp);
 describe ("Setup Test User", function() {
   it("Should Create A New Test User", (done) => {
     chai.request(server)
-    .post("/api/v1/auth/create-user/")
+    .post("/api/v1/auth/create-user")
     .send({
       "firstName": "testcase",
       "lastName": "testcase",
@@ -35,12 +35,12 @@ describe ("Setup Test User", function() {
         describe('/GET gifs', () => {
           it('it should GET all the gifs', (done) => {
             chai.request(server)
-            .get('/api/v1/gifs/')
+            .get('/api/v1/gifs')
             .set({"Authorization" : "Bearer " + token})
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')
             .end((err, res) => {
-              console.log(res);
+              //console.log(res);
               res.should.have.status(200);
               res.body.should.be.a('array');
               //res.body.length.should.be.eql(0);
@@ -82,7 +82,7 @@ describe ("Setup Test User", function() {
               image:  'Testing'
             };
             chai.request(server)
-            .post('/api/v1/gifs/')
+            .post('/api/v1/gifs')
             .set({"Authorization" : "Bearer " + token})
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')
@@ -104,7 +104,7 @@ describe ("Setup Test User", function() {
               title:  'Testing'
             };
             chai.request(server)
-            .post('/api/v1/gifs/')
+            .post('/api/v1/gifs')
             .set({"Authorization" : "Bearer " + token})
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')
@@ -127,7 +127,7 @@ describe ("Setup Test User", function() {
               userid:1
             };
             chai.request(server)
-            .post('/api/v1/gifs/')
+            .post('/api/v1/gifs')
             .send(gif)
             .set({"Authorization" : "Bearer " + token})
             .set('Content-Type', 'application/json')
@@ -144,7 +144,7 @@ describe ("Setup Test User", function() {
                 it('it should GET a gif by the given id', (done) => {
                   //let gifID = 10;
                   chai.request(server)
-                  .get('/api/v1/gifs/'+gifID+'/')
+                  .get('/api/v1/gifs/'+gifID)
                   .set({"Authorization" : "Bearer " + token})
                   .end((err, res) => {
                     res.should.have.status(201);
@@ -169,7 +169,7 @@ describe ("Setup Test User", function() {
                     userid:1
                   }
                   chai.request(server)
-                  .put('/api/v1/gifs/'+gifID+'/')
+                  .put('/api/v1/gifs/'+gifID)
                   .set({"Authorization" : "Bearer " + token})
                   .set('Content-Type', 'application/json')
                   .set('Accept', 'application/json')
@@ -190,7 +190,7 @@ describe ("Setup Test User", function() {
                 it('it should DELETE a gif given the id', (done) => {
                   //let gifID = 10;
                   chai.request(server)
-                  .delete('/api/v1/gifs/'+gifID+'/')
+                  .delete('/api/v1/gifs/'+gifID)
                   .set({"Authorization" : "Bearer " + token})
                   .set('Content-Type', 'application/json')
                   .set('Accept', 'application/json')
