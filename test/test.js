@@ -46,7 +46,7 @@ describe ("User Management Module Testing", function(){
 
 
 //Delete Test User
-describe('Delete Test User', () => {
+/*describe('Delete Test User', () => {
     it('it should DELETE a test user given the id', (done) => {
     chai.request(server)
     .delete('/api/v1/auth/deleteuser')
@@ -60,4 +60,4 @@ describe('Delete Test User', () => {
       done();
     });
   });
-});
+});*/
