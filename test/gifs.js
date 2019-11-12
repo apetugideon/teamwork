@@ -12,10 +12,9 @@ if (app.get("env") === "production") {
   server = "https://teamwork-heroku-staging.herokuapp.com";
 }
 
-console.log("Tetsing ==== ", app.get("env"));
 describe ("Setup Test User", function() {
   it("Should Create A New Test User", (done) => {
-    chai.request(server)
+    chai.request("http://localhost:5000" || "https://teamwork-heroku-staging.herokuapp.com")
     .post("/api/v1/auth/create-user")
     .send({
       "firstName": "testcase",
@@ -30,7 +29,6 @@ describe ("Setup Test User", function() {
     .end((err, res) => {
       
       //Test User Token
-      console.log(res);
       const token = res.body.data.token;
 
       //Gifs Testing Start
