@@ -1,16 +1,11 @@
 var assert = require("assert");
 let chai = require("chai");
 let chaiHttp = require("chai-http");
-let server = ""; //require("../server");
+let server = require("../server");
 let should = chai.should();
 chai.use(chaiHttp);
 
-const env = process.env.NODE_ENV;
-if (env === 'development') {
-  server = "https://teamwork-heroku-staging.herokuapp.com"; //require("../server");
-} else {
-  server = "https://teamwork-heroku-staging.herokuapp.com";
-}
+//server = "https://teamwork-heroku-staging.herokuapp.com";
 
 describe ("User Management Module Testing", function(){
   it("Should Should Create A New User", (done) => {
@@ -56,11 +51,12 @@ describe('Delete Test User', () => {
   it('it should DELETE a test user given the id', (done) => {
     chai.request(server)
     .delete('/api/v1/auth/deleteuser')
-    .set({"Authorization" : "Bearer " + token})
-    .end((err, response2) => {
-      response2.should.have.status(201);
-      response2.body.should.be.a('object');
-      response2.body.should.have.property('status').eql('success');
+    //.set({"Authorization" : "Bearer " + token})
+    .end((err, response) => {
+      //console.log(response);
+      response.should.have.status(201);
+      response.body.should.be.a('object');
+      response.body.should.have.property('status').eql('success');
       console.log("TestUser Deleted");
       done();
     });

@@ -2,11 +2,11 @@ let dbconn = require("../dbconn");
 let assert = require("assert");
 let chai = require("chai");
 let chaiHttp = require("chai-http");
-let server = ""; //require("../server");
+let server = require("../server");
 let should = chai.should();
 chai.use(chaiHttp);
 
-server = "https://teamwork-heroku-staging.herokuapp.com";
+//server = "https://teamwork-heroku-staging.herokuapp.com";
 
 describe ("Setup Test User", function() {
   it("Should Create A New Test User", (done) => {
@@ -201,24 +201,24 @@ describe ("Setup Test User", function() {
       });
       //Gifs Testing End
 
-
-      //Delete Test User
-      describe('Delete Test User', () => {
-        it('it should DELETE a test user given the id', (done) => {
-          chai.request(server)
-          .delete('/api/v1/auth/deleteAdminTestUser/'+res.body.data.userId)
-          .set({"Authorization" : "Bearer " + token})
-          .end((err, res) => {
-            res.should.have.status(201);
-            res.body.should.be.a('object');
-            res.body.should.have.property('status').eql('success');
-            console.log("TestUser Deleted");
-            done();
-          });
-        });
-      });
+      done();
+    });
+  });
+});
 
 
+//Delete Test User
+describe('Delete Test User', () => {
+  it('it should DELETE a test user given the id', (done) => {
+    chai.request(server)
+    .delete('/api/v1/auth/deleteuser')
+    //.set({"Authorization" : "Bearer " + token})
+    .end((err, response) => {
+      //console.log(response);
+      response.should.have.status(201);
+      response.body.should.be.a('object');
+      response.body.should.have.property('status').eql('success');
+      console.log("TestUser Deleted");
       done();
     });
   });
