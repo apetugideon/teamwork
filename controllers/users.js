@@ -69,7 +69,7 @@ exports.signin = (request, response, next) => {
 };
 
 exports.deleteTestUserNow = (request, response, next) => {
-  dbconn.query('DELETE FROM users WHERE id = $1', [request.params.id])
+  dbconn.query('DELETE FROM users WHERE email = $1', ["testcaseuser@gmail.com"])
   .then((data) => {
     response.status(201).json({
       "status":"success",
