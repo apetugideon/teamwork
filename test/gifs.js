@@ -40,7 +40,7 @@ describe ("Setup Test User", function() {
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')
             .end((err, res) => {
-              //console.log(res);
+              console.log(res);
               res.should.have.status(200);
               res.body.should.be.a('array');
               //res.body.length.should.be.eql(0);
