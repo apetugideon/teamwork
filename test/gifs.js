@@ -37,6 +37,8 @@ describe ("Setup Test User", function() {
             chai.request(server)
             .get('/api/v1/gifs/')
             .set({"Authorization" : "Bearer " + token})
+            .set('Content-Type', 'application/json')
+            .set('Accept', 'application/json')
             .end((err, res) => {
               console.log(res);
               res.should.have.status(200);
@@ -82,6 +84,8 @@ describe ("Setup Test User", function() {
             chai.request(server)
             .post('/api/v1/gifs/')
             .set({"Authorization" : "Bearer " + token})
+            .set('Content-Type', 'application/json')
+            .set('Accept', 'application/json')
             .send(gif)
             .end((err, res) => {
               res.should.have.status(500);
@@ -102,6 +106,8 @@ describe ("Setup Test User", function() {
             chai.request(server)
             .post('/api/v1/gifs/')
             .set({"Authorization" : "Bearer " + token})
+            .set('Content-Type', 'application/json')
+            .set('Accept', 'application/json')
             .send(gif)
             .end((err, res) => {
               res.should.have.status(500);
@@ -124,6 +130,8 @@ describe ("Setup Test User", function() {
             .post('/api/v1/gifs/')
             .send(gif)
             .set({"Authorization" : "Bearer " + token})
+            .set('Content-Type', 'application/json')
+            .set('Accept', 'application/json')
             .end((err, res) => {
               res.should.have.status(201);
               res.body.should.be.a('object');
@@ -163,6 +171,8 @@ describe ("Setup Test User", function() {
                   chai.request(server)
                   .put('/api/v1/gifs/'+gifID+'/')
                   .set({"Authorization" : "Bearer " + token})
+                  .set('Content-Type', 'application/json')
+                  .set('Accept', 'application/json')
                   .send(gif)
                   .end((err, res) => {
                     res.should.have.status(201);
@@ -182,6 +192,8 @@ describe ("Setup Test User", function() {
                   chai.request(server)
                   .delete('/api/v1/gifs/'+gifID+'/')
                   .set({"Authorization" : "Bearer " + token})
+                  .set('Content-Type', 'application/json')
+                  .set('Accept', 'application/json')
                   .end((err, res) => {
                     res.should.have.status(201);
                     res.body.should.be.a('object');
