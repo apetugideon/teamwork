@@ -36,6 +36,7 @@
     "eslint-plugin-import": "2.18.2",
     "jasmine-node": "^3.0.0",
     "mocha": "^6.2.2",
+    "node-fetch": "^2.6.0",
     "nodemon": "^1.19.4",
     "pluralize": "^8.0.0",
     "request": "^2.88.0",

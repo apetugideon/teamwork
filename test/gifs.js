@@ -1,24 +1,21 @@
 const express = require("express");
-let uContr = require("../controllers/users");
 let dbconn = require("../dbconn");
 let assert = require("assert");
 let chai = require("chai");
 let chaiHttp = require("chai-http");
-let server = require("../server");
+let server = require("../server"); 
 let should = chai.should();
-const app = express();
 chai.use(chaiHttp);
 
-
+const app = express();
 if (app.get("env") === "production") {
   server = "https://teamwork-heroku-staging.herokuapp.com";
 }
 
-
 describe ("Setup Test User", function() {
   it("Should Create A New Test User", (done) => {
     chai.request(server)
-    .post("/api/v1/auth/create-user")
+    .post("/api/v1/auth/create-user/")
     .send({
       "firstName": "testcase",
       "lastName": "testcase",
@@ -30,7 +27,7 @@ describe ("Setup Test User", function() {
       "address": "123, testcase Avenue"
     })
     .end((err, res) => {
-
+      
       //Test User Token
       const token = res.body.data.token;
 
@@ -43,10 +40,7 @@ describe ("Setup Test User", function() {
             chai.request(server)
             .get('/api/v1/gifs')
             .set({"Authorization" : "Bearer " + token})
-            .set('Content-Type', 'application/json')
-            .set('Accept', 'application/json')
             .end((err, res) => {
-              //console.log(res);
               res.should.have.status(200);
               res.body.should.be.a('array');
               //res.body.length.should.be.eql(0);
@@ -90,8 +84,6 @@ describe ("Setup Test User", function() {
             chai.request(server)
             .post('/api/v1/gifs')
             .set({"Authorization" : "Bearer " + token})
-            .set('Content-Type', 'application/json')
-            .set('Accept', 'application/json')
             .send(gif)
             .end((err, res) => {
               res.should.have.status(500);
@@ -112,8 +104,6 @@ describe ("Setup Test User", function() {
             chai.request(server)
             .post('/api/v1/gifs')
             .set({"Authorization" : "Bearer " + token})
-            .set('Content-Type', 'application/json')
-            .set('Accept', 'application/json')
             .send(gif)
             .end((err, res) => {
               res.should.have.status(500);
@@ -136,8 +126,6 @@ describe ("Setup Test User", function() {
             .post('/api/v1/gifs')
             .send(gif)
             .set({"Authorization" : "Bearer " + token})
-            .set('Content-Type', 'application/json')
-            .set('Accept', 'application/json')
             .end((err, res) => {
               res.should.have.status(201);
               res.body.should.be.a('object');
@@ -177,8 +165,6 @@ describe ("Setup Test User", function() {
                   chai.request(server)
                   .put('/api/v1/gifs/'+gifID)
                   .set({"Authorization" : "Bearer " + token})
-                  .set('Content-Type', 'application/json')
-                  .set('Accept', 'application/json')
                   .send(gif)
                   .end((err, res) => {
                     res.should.have.status(201);
@@ -198,12 +184,20 @@ describe ("Setup Test User", function() {
                   chai.request(server)
                   .delete('/api/v1/gifs/'+gifID)
                   .set({"Authorization" : "Bearer " + token})
-                  .set('Content-Type', 'application/json')
-                  .set('Accept', 'application/json')
                   .end((err, res) => {
+                    //console.log(res);
                     res.should.have.status(201);
                     res.body.should.be.a('object');
                     res.body.should.have.property('status').eql('success');
+
+                    dbconn.query('DELETE FROM users WHERE email = $1', ["testcaseuser@gmail.com"])
+                    .then((data) => {
+                      console.log("Test User Deleted");
+                    })
+                    .catch((error) => {
+                      console.log("Test User Not Deleted");
+                    });
+
                     done();
                   });
                 });
@@ -226,20 +220,3 @@ describe ("Setup Test User", function() {
   });
 });
 
-
-//Delete Test User
-/*describe('Delete Test User', () => {
-  it('it should DELETE a test user given the id', (done) => {
-    chai.request(server)
-    .delete('/api/v1/auth/deleteuser')
-    //.set({"Authorization" : "Bearer " + token})
-    .end((err, response) => {
-      //console.log(response);
-      response.should.have.status(201);
-      response.body.should.be.a('object');
-      response.body.should.have.property('status').eql('success');
-      console.log("TestUser Deleted");
-      done();
-    });
-  });
-});**/

@@ -1,10 +1,16 @@
+const express = require("express");
+let dbconn = require("../dbconn");
 var assert = require("assert");
 let chai = require("chai");
 let chaiHttp = require("chai-http");
 let server = require("../server");
-//let server = "https://teamwork-heroku-staging.herokuapp.com";
 let should = chai.should();
 chai.use(chaiHttp);
+
+const app = express();
+if (app.get("env") === "production") {
+  server = "https://teamwork-heroku-staging.herokuapp.com";
+}
 
 describe ("User Management Module Testing", function(){
   it("Should Should Create A New User", (done) => {
@@ -39,25 +45,16 @@ describe ("User Management Module Testing", function(){
       console.log("Test Passed");
       //Test User Token
       //const token = response.body.data.token;
+
+      dbconn.query('DELETE FROM users WHERE email = $1', ["testcaseuser@gmail.com"])
+      .then((data) => {
+        console.log("Test User Deleted");
+      })
+      .catch((error) => {
+        console.log("Test User Not Deleted");
+      });
+
       done();
     });
   });
 });
-
-
-//Delete Test User
-/*describe('Delete Test User', () => {
-    it('it should DELETE a test user given the id', (done) => {
-    chai.request(server)
-    .delete('/api/v1/auth/deleteuser')
-    //.set({"Authorization" : "Bearer " + token})
-    .end((err, response) => {
-      //console.log(response);
-      response.should.have.status(201);
-      response.body.should.be.a('object');
-      response.body.should.have.property('status').eql('success');
-      console.log("TestUser Deleted");
-      done();
-    });
-  });
-});*/

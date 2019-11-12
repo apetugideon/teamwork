@@ -67,20 +67,3 @@ exports.signin = (request, response, next) => {
     });  
   });
 };
-
-exports.testdelete = (request, response, next) => {
-  const testemail = "testcaseuser@gmail.com";
-  dbconn.query('DELETE FROM users WHERE email = $1', [testemail])
-  .then((data) => {
-    //console.log("data  ===  ", data);
-    response.status(201).json({
-      "status":"success",
-      "data":data.rows[0]
-    });
-  })
-  .catch((error) => {
-    response.status(500).json({
-      error:error
-    });
-  });
-};
