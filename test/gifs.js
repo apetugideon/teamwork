@@ -2,8 +2,8 @@ let dbconn = require("../dbconn");
 let assert = require("assert");
 let chai = require("chai");
 let chaiHttp = require("chai-http");
-//let server = require("../server");
-let server = "https://teamwork-heroku-staging.herokuapp.com";
+let server = require("../server");
+//let server = "https://teamwork-heroku-staging.herokuapp.com";
 let should = chai.should();
 chai.use(chaiHttp);
 
@@ -212,10 +212,10 @@ describe ("Setup Test User", function() {
 describe('Delete Test User', () => {
   it('it should DELETE a test user given the id', (done) => {
     chai.request(server)
-    .post('/api/v1/auth/deleteuser')
+    .delete('/api/v1/auth/deleteuser')
     //.set({"Authorization" : "Bearer " + token})
     .end((err, response) => {
-      console.log(response);
+      //console.log(response);
       response.should.have.status(201);
       response.body.should.be.a('object');
       response.body.should.have.property('status').eql('success');
