@@ -12,6 +12,7 @@ if (app.get("env") === "production") {
   server = "https://teamwork-heroku-staging.herokuapp.com";
 }*/
 
+console.log("server", server);
 describe ("Setup Test User", function() {
   it("Should Create A New Test User", (done) => {
     chai.request(server)
