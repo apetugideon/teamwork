@@ -3,18 +3,18 @@ let dbconn = require("../dbconn");
 let assert = require("assert");
 let chai = require("chai");
 let chaiHttp = require("chai-http");
-let server = require("../server"); 
+let server = require("../server") || "https://teamwork-heroku-staging.herokuapp.com"; 
 let should = chai.should();
 chai.use(chaiHttp);
 
-const app = express();
+/*const app = express();
 if (app.get("env") === "production") {
   server = "https://teamwork-heroku-staging.herokuapp.com";
-}
+}*/
 
 describe ("Setup Test User", function() {
   it("Should Create A New Test User", (done) => {
-    chai.request("http://localhost:5000" || "https://teamwork-heroku-staging.herokuapp.com")
+    chai.request(server)
     .post("/api/v1/auth/create-user")
     .send({
       "firstName": "testcase",
