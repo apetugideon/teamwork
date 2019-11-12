@@ -1,12 +1,18 @@
+const express = require("express");
+let uContr = require("../controllers/users");
 let dbconn = require("../dbconn");
 let assert = require("assert");
 let chai = require("chai");
 let chaiHttp = require("chai-http");
-//let server = require("../server");
-let server = "https://teamwork-heroku-staging.herokuapp.com";
+let server = require("../server");
 let should = chai.should();
+const app = express();
 chai.use(chaiHttp);
 
+
+if (app.get("env") === "production") {
+  server = "https://teamwork-heroku-staging.herokuapp.com";
+}
 
 
 describe ("Setup Test User", function() {
@@ -40,7 +46,7 @@ describe ("Setup Test User", function() {
             .set('Content-Type', 'application/json')
             .set('Accept', 'application/json')
             .end((err, res) => {
-              console.log(res);
+              //console.log(res);
               res.should.have.status(200);
               res.body.should.be.a('array');
               //res.body.length.should.be.eql(0);
