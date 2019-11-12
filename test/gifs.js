@@ -215,7 +215,7 @@ describe('Delete Test User', () => {
     .delete('/api/v1/auth/deleteuser')
     //.set({"Authorization" : "Bearer " + token})
     .end((err, response) => {
-      //console.log(response);
+      console.log(response);
       response.should.have.status(201);
       response.body.should.be.a('object');
       response.body.should.have.property('status').eql('success');
