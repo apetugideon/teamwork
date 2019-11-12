@@ -8,7 +8,7 @@ let should = chai.should();
 chai.use(chaiHttp);
 
 /*const app = express();
-if (app.get("env") === "production") {
+if (app.get("env") === "production") { 
   server = "https://teamwork-heroku-staging.herokuapp.com";
 }*/
 
