@@ -258,7 +258,7 @@ const makeTesting = (tableName) => {
     to_write += 'let chai = require("chai");\n';
     to_write += 'let chaiHttp = require("chai-http");\n';
     to_write += 'let server = require("../server");\n';
-    //to_write += 'let should = chai.should();\n';
+    to_write += 'let should = chai.should();\n';
     to_write += 'chai.use(chaiHttp);\n\n\n';
 
     to_write += `server = "https://teamwork-heroku-staging.herokuapp.com";\n\n`;
