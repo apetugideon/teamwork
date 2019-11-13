@@ -5,6 +5,7 @@ const userRoutes = require('./routes/users');
 const gifRoutes = require('./routes/gifs');
 const categoryRoutes = require('./routes/categories');
 const articleRoutes = require('./routes/articles');
+const commentRoutes = require('./routes/comments');
 
 // const cookieParser = require('cookie-parser');
 // const logger = require('morgan');
@@ -21,9 +22,10 @@ app.use((request, response, next) => {
 
 app.use(bodyParser.json());
 
-app.use('/api/v1/auth', userRoutes);
+app.use('/api/v1/auth', userRoutes); 
 app.use('/api/v1/categories', categoryRoutes);
 app.use('/api/v1/articles', articleRoutes);
+app.use('/api/v1/comments', commentRoutes);
 app.use('/api/v1/gifs', gifRoutes);
 app.use('/gifs', express.static(path.join(__dirname, 'images')));
 
