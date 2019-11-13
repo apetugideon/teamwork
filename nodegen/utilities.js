@@ -21,9 +21,9 @@ const getTable = () => {
     recs.forEach((item, pos) => {
       if (item.schemaname === 'public') {
         if (item.tablename != 'gifs' || item.tablename != 'user') {
-          if (item.tablename == 'gideon') {
+          if (item.tablename == 'categories') { //item.tablename == 'articles' || 
             makeTesting(item.tablename);
-            // makeRoute(item.tablename);
+            makeRoute(item.tablename);
             makeController(item.tablename);
             // descTable(item.tablename);
           }
@@ -219,7 +219,7 @@ const makeRoute = (tableName) => {
     to_write += '\n';
   }
 
-  to_write += `const ${tableName}Controller = require('../controllers/${tableName}');\n\n`;
+  to_write += `const ${tableName}Controller = require('../controllers/${tableName}Controller');\n\n`;
 
   to_write += `router.get('/', auth, ${tableName}Controller.getAll${routeNames});\n`;
   to_write += `router.post('/', auth,${embedMulter} ${tableName}Controller.create${routeName});\n`;
