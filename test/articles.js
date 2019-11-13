@@ -127,8 +127,8 @@ describe ("Setup Test User", function() {
             .send(article)
             .set({"Authorization" : "Bearer " + token})
             .end((err, res) => {
-              console.log(res);
-              //res.should.have.status(201);
+              //console.log(res);
+              res.should.have.status(201);
               res.body.should.be.a('object');
               res.body.should.have.property('status').eql('success');
               
@@ -157,7 +157,7 @@ describe ("Setup Test User", function() {
                 it('it should UPDATE a article given the id', (done) => {
                   //let articleID = 10;
                   let article = {
-                    categoryid:1,
+                    //categoryid:1,
                     createdon:'2019-11-04 22:56:48',
                     updatedon:'2019-11-04 22:56:48',
                     article:'Testing',
