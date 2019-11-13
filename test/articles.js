@@ -127,6 +127,7 @@ describe ("Setup Test User", function() {
             .send(article)
             .set({"Authorization" : "Bearer " + token})
             .end((err, res) => {
+              console.log(res);
               res.should.have.status(201);
               res.body.should.be.a('object');
               res.body.should.have.property('status').eql('success');
