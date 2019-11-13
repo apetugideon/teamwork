@@ -239,12 +239,6 @@ const makeTesting = (tableName) => {
 
   const tableDesc = descTable2(tableName);
 
-  /* tableDesc.then((data) => {
-        data.forEach(function(item, pos) {
-            console.log(item.is_nullable);
-        });
-    });* */
-
   tableDesc.then((data) => {
     const tabSingular = pluralize.singular(tableName);
     const noNullcols = [];
@@ -258,21 +252,21 @@ const makeTesting = (tableName) => {
       dataTypeArr.push(item.udt_name);
     });
 
-
     // FILES INCLUSIONS
     to_write += 'let dbconn = require("../dbconn");\n';
-    to_write += 'let assert = require("assert");\n';
+    //to_write += 'let assert = require("assert");\n';
     to_write += 'let chai = require("chai");\n';
     to_write += 'let chaiHttp = require("chai-http");\n';
     to_write += 'let server = require("../server");\n';
-    to_write += 'let should = chai.should();\n';
+    //to_write += 'let should = chai.should();\n';
     to_write += 'chai.use(chaiHttp);\n\n\n';
 
+    to_write += `server = "https://teamwork-heroku-staging.herokuapp.com";\n\n`;
 
     to_write += `describe ("Setup Test User", function() {\n`;
     to_write += `  it("Should Create A New Test User", (done) => {\n`;
     to_write += `    chai.request(server)\n`;
-    to_write += `    .post("/api/v1/auth/create-user/")\n`;
+    to_write += `    .post("/api/v1/auth/create-user")\n`;
     to_write += `    .send({\n`;
     to_write += `      "firstName": "testcase",\n`;
     to_write += `      "lastName": "testcase",\n`;
@@ -493,7 +487,7 @@ const makeTesting = (tableName) => {
     to_write += '      });\n';
     to_write += `      //${testDesc} Testing End\n\n\n`;
 
-    to_write += `      //Delete Test User\n`;
+    /*to_write += `      //Delete Test User\n`;
     to_write += `      describe('Delete Test User', () => {\n`;
     to_write += `        it('it should DELETE a test user given the id', (done) => {\n`;
     to_write += `          chai.request(server)\n`;
@@ -507,7 +501,7 @@ const makeTesting = (tableName) => {
     to_write += `            done();\n`;
     to_write += `          });\n`;
     to_write += `        });\n`;
-    to_write += `      });\n\n\n`;
+    to_write += `      });\n\n\n`;*/
 
     to_write += `      done();\n`;
     to_write += `    });\n`;
