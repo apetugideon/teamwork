@@ -3,15 +3,11 @@ let dbconn = require("../dbconn");
 var assert = require("assert");
 let chai = require("chai");
 let chaiHttp = require("chai-http");
-let server = require("../server") || "https://teamwork-heroku-staging.herokuapp.com"; 
+let server = require("../server"); 
 let should = chai.should();
 chai.use(chaiHttp);
 
-/*onst app = express();
-if (app.get("env") === "production") {
-  server = "https://teamwork-heroku-staging.herokuapp.com";
-}*/
-server = "https://teamwork-heroku-staging.herokuapp.com";
+//server = "https://teamwork-heroku-staging.herokuapp.com";
 
 describe ("User Management Module Testing", function(){
   it("Should Should Create A New User", (done) => {
