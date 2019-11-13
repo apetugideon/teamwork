@@ -115,7 +115,7 @@ describe ("Setup Test User", function() {
           //Final Articles /POST Testing
           it('it should POST a article ', (done) => {
             let article = {
-              categoryid:1,
+              categoryid:2,
               createdon:'2019-11-04 22:56:48',
               updatedon:'2019-11-04 22:56:48',
               article:'Testing',
