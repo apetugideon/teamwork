@@ -5,15 +5,20 @@ const env = process.env.NODE_ENV || 'development';
 let connString = {};
 
 if (env === 'development') {
-  console.log("Here 1");
-  connString = require("./dbparam");
+  connString = {
+    user: 'me',
+    host: 'localhost',
+    database: 'teemworkdb',
+    password: 'Adisababa123$@',
+    port: 5432,
+  };
 } else {
-  console.log("Here 2");
   connString = {
     connectionString: process.env.DATABASE_URL,
     ssl: true,
   };
 }
+
 const pool = new Pool(connString);
 
 module.exports = pool;
