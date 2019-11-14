@@ -4,7 +4,7 @@ const env = process.env.NODE_ENV || 'development';
 
 let connString = {};
 
-if (!process.env.DATABASE_URL) {
+if (env === 'development') {
   console.log("Here 1");
   connString = require("./dbparam");
 } else {
