@@ -41,6 +41,7 @@ exports.createGif = (request, res, next) => {
         });
       })
       .catch((error) => {
+        console.log(error);
         res.status(500).json({
           "status":"Error, Could not save record!"
         });
@@ -70,6 +71,7 @@ exports.createGif = (request, res, next) => {
       });
     })
     .catch((error) => {
+      console.log(error);
       res.status(500).json({
         "status":"Error, Could not save record!"
       });
