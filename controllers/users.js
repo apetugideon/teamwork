@@ -47,6 +47,8 @@ exports.signin = (request, response, next) => {
     dbconn.query('SELECT * FROM users WHERE email = $1', [request.body.email])
     .then((data) => {
       console.log(data);
+      console.log(data.rows[0]);
+      
       const user = data.rows[0];
       bcrypt.compare(request.body.password, user.password).then((valid) => {
         if (!valid) {
