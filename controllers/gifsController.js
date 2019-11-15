@@ -95,30 +95,72 @@ exports.getOneGif = (request, response, next) => {
 };
 
 
-exports.modifyGif = (request, response, next) => {
-  let image = request.body.image;
-  let title = request.body.title;
-  let userid = request.body.userid;
-  let id = request.params.id;
-
-  dbconn.query('UPDATE gifs SET image=$1, title=$2, userid=$3 WHERE id=$4', [
-    image,
-    title,
-    userid,
-    id
-  ])
-  .then((data) => {
-    response.status(201).json({
-      "status":"success",
-      "data":data.rows
+exports.modifyGif = (request, res, next) => {
+  if (request.file) {
+    cloud.uploader.upload(request.file.path, (error, result) => {
+      const title = request.body.title;
+      const userid = request.body.userid;
+      const imageUrl = result.url;
+      const id = request.params.id;
+      dbconn.query('UPDATE gifs SET image=$1, title=$2, userid=$3 WHERE id=$4', [
+        imageUrl,
+        title,
+        userid,
+        id
+      ])
+      .then((data) => {
+        const gifId = data.rows[0].id;
+        const createdOn = data.rows[0].createdon;
+        return res.status(201).json({
+          status: 'success',
+          data: {
+            gifId,
+            message: 'GIF image successfully Updated',
+            createdOn,
+            title,
+            imageUrl,
+          }
+        });
+      })
+      .catch((error) => {
+        return res.status(500).json({
+          "status":"Error, Could not save record!"
+        });
+      });
     });
-  })
-  .catch((error) => {
-    response.status(500).json({
-      "status":"Error, Could not update record!"
+  } else {
+    const title = request.body.title;
+    const userid = request.body.userid;
+    const imageUrl = "No gif";
+    const id = request.params.id;
+    dbconn.query('UPDATE gifs SET image=$1, title=$2, userid=$3 WHERE id=$4', [
+      imageUrl,
+      title,
+      userid,
+      id
+    ])
+    .then((data) => {
+      const gifId = data.rows[0].id;
+      const createdOn = data.rows[0].createdon;
+      return res.status(201).json({
+        status: 'success',
+        data: {
+          gifId,
+          message: 'GIF image successfully Updated',
+          createdOn,
+          title,
+          imageUrl,
+        }
+      });
+    })
+    .catch((error) => {
+      return res.status(500).json({
+        "status":"Error, Could not save record!"
+      });
     });
-  });
+  }
 };
+
 
 exports.deleteGif = (request, response, next) => {
   dbconn.query('SELECT id, userid FROM gifs WHERE id = $1', [request.params.id])
