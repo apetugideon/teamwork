@@ -47,10 +47,7 @@ exports.createGif = (request, res, next) => {
     });
   } else {
     return res.status(201).json({
-      status: 'success',
-      data: {
-        message: 'No gif to Upload!'
-      }
+      "message":"No gif to Upload!"
     });
   }
 };
