@@ -30,13 +30,13 @@ exports.signup = (req, res, next) => {
       })
       .catch((error) => {
         return res.status(500).json({
-          error: error
+          "message":"Error, User Not created!"
         });
       });
     });
   } else {
     res.status(401).json({
-      error: 'Only An admin can create A User Account',
+      "message": 'Only An admin can create A User Account',
     });
   }
 };
@@ -51,7 +51,7 @@ exports.signin = (request, response, next) => {
       bcrypt.compare(request.body.password, user.password).then((valid) => {
         if (!valid) {
           return response.status(401).json({
-            error: new Error('Incorrect Password')
+            "message": "Incorrect Password"
           });
         }
         const payLoadParam = user.id +"!~+="+ (user.jobrole.trim() === "ADMIN" ? 1 : 0);
@@ -66,16 +66,16 @@ exports.signin = (request, response, next) => {
       })
       .catch((error) => {
         return response.status(401).json({
-          error: 'Incorrect Password'
+          "message": 'Incorrect Password'
         });
       });
     })
     .catch((error) => {
       return response.status(500).json({
-        error:"Error, Signin fails, contact admin!"
+        "message":"Error, Signin fails, contact admin!"
       });  
     });
   } catch(e) {
-    console.log(e);
+    //console.log(e);
   }
 };
