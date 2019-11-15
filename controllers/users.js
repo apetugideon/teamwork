@@ -45,6 +45,7 @@ exports.signup = (req, res, next) => {
 exports.signin = (request, response, next) => {
   dbconn.query('SELECT * FROM users WHERE email = $1', [request.body.email])
   .then((data) => {
+    console.log(data);
     const user = data.rows[0];
     bcrypt.compare(request.body.password, user.password).then((valid) => {
       if (!valid) {
@@ -63,12 +64,14 @@ exports.signin = (request, response, next) => {
       });
     })
     .catch((error) => {
+      console.log(error);
       response.status(401).json({
         error: 'Incorrect Password'
       });
     });
   })
-  .catch(error => {
+  .catch((error) => {
+    console.log(error);
     response.status(500).json({
       error:"Error, Signin fails, contact admin!"
     });  
