@@ -6,16 +6,20 @@ module.exports = (request, response, next) => {
     const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
     const { userId } = decodedToken;
 
-    if ((request.body.userId) && (request.body.userId !== userId)) {
+    const payLoadParam = userId.split("!~+=");
+
+    if ((request.body.userId) && (request.body.userId !== payLoadParam[0])) {
       response.status(401).json({
         error: 'Wrong User Credentials',
       });
     } else {
+      request.body.currUserId = payLoadParam[0];
+      request.body.currUserRole = payLoadParam[1];
       next();
     }
   } catch (e) {
     response.status(401).json({
-      error: 'Unauthorized Request',
+      error: 'You do not have the Access right to perform this Action!',
     });
   }
 };

@@ -3,35 +3,42 @@ const jwt      = require('jsonwebtoken');
 const dbconn   = require(".././dbconn");
 
 exports.signup = (req, res, next) => {
-  bcrypt.hash(req.body.password, 10).then((hash) => {
-    dbconn.query('INSERT INTO users(firstName, lastName, email, password, gender, jobRole, department, address) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id', [
-      req.body.firstName, 
-      req.body.lastName, 
-      req.body.email, 
-      hash, 
-      req.body.gender, 
-      req.body.jobRole, 
-      req.body.department, 
-      req.body.address
-    ])
-    .then((data) => {
-      const userId = data.rows[0].id;
-      const token  = jwt.sign({userId:userId}, 'RANDOM_TOKEN_SECRET', {expiresIn:'24h'});
-      res.status(201).json({
-        "status":"success",
-        "data":{
-          "message":"User account successfully created",
-          "token":token,
-          "userId":userId
-        }
-      });
-    })
-    .catch((error) => {
-      res.status(500).json({
-        error: error
+  if (Number(req.body.currUserRole) === 1) {
+    bcrypt.hash(req.body.password, 10).then((hash) => {
+      dbconn.query('INSERT INTO users(firstName, lastName, email, password, gender, jobRole, department, address) VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id', [
+        req.body.firstName,
+        req.body.lastName,
+        req.body.email,
+        hash,
+        req.body.gender,
+        req.body.jobRole,
+        req.body.department,
+        req.body.address
+      ])
+      .then((data) => {
+        const userId = data.rows[0].id;
+        const payLoadParam = userId +"!~+="+ (req.body.jobRole.trim() === "ADMIN" ? 1 : 0);
+        const token = jwt.sign({userId:payLoadParam}, 'RANDOM_TOKEN_SECRET', {expiresIn:'24h'});
+        res.status(201).json({
+          "status":"success",
+          "data":{
+            "message":"User account successfully created",
+            "token":token,
+            "userId":userId
+          }
+        });
+      })
+      .catch((error) => {
+        res.status(500).json({
+          error: error
+        });
       });
     });
-  });
+  } else {
+    res.status(401).json({
+      error: 'Only An admin can create A User Account',
+    });
+  }
 };
 
 
@@ -45,8 +52,8 @@ exports.signin = (request, response, next) => {
           error: new Error('Incorrect Password')
         });
       }
-
-      const token = jwt.sign({userId:user.id}, 'RANDOM_TOKEN_SECRET', {expiresIn:'24h'});
+      const payLoadParam = user.id +"!~+="+ (user.jobrole.trim() === "ADMIN" ? 1 : 0);
+      const token = jwt.sign({userId:payLoadParam}, 'RANDOM_TOKEN_SECRET', {expiresIn:'24h'});
       response.status(200).json({
         "status":"success",
         "data":{
@@ -63,7 +70,7 @@ exports.signin = (request, response, next) => {
   })
   .catch(error => {
     response.status(500).json({
-      error:"Something is wrong"
+      error:"Error, Signin fails, contact admin!"
     });  
   });
 };

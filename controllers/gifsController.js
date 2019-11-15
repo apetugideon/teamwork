@@ -1,22 +1,20 @@
 const cloud = require('.././cloudImagesConf');
 const dbconn = require('.././dbconn');
 
-
 exports.getAllGifs = (request, response, next) => {
   dbconn.query('SELECT * FROM gifs')
   .then((data) => {
-    const gifs = data.rows
+    const gifs = data.rows;
     response.status(200).json(gifs);
   })
   .catch(error => {
     response.status(500).json({
-      error:error
+      "status":"Error, Could not fetch records!"
     });
   });
 };
 
 exports.createGif = (request, res, next) => {
-  //console.log("Debugging === ",request.file.path);
   if (request.file) {
     cloud.uploader.upload(request.file.path, (error, result) => {
       //const image = request.body.image;
@@ -44,7 +42,7 @@ exports.createGif = (request, res, next) => {
       })
       .catch((error) => {
         res.status(500).json({
-          error: error
+          "status":"Error, Could not save record!"
         });
       });
     });
@@ -73,7 +71,7 @@ exports.createGif = (request, res, next) => {
     })
     .catch((error) => {
       res.status(500).json({
-        error: error
+        "status":"Error, Could not save record!"
       });
     });
   }
@@ -90,7 +88,7 @@ exports.getOneGif = (request, response, next) => {
   })
   .catch((error) => {
     response.status(500).json({
-      error:error
+      "status":"Error, Could not fetch record!"
     });
   });
 };
@@ -116,21 +114,35 @@ exports.modifyGif = (request, response, next) => {
   })
   .catch((error) => {
     response.status(500).json({
-      error: error
+      "status":"Error, Could not update record!"
     });
   });
 };
 
 exports.deleteGif = (request, response, next) => {
-  dbconn.query('SELECT * FROM gifs WHERE id = $1', [request.params.id])
+  dbconn.query('SELECT id, userid FROM gifs WHERE id = $1', [request.params.id])
   .then((data) => {
-    const gifUrl = data.rows[0].image;
-    cloud.uploader.destroy(gifUrl, function(result) {  
-      dbconn.query('DELETE FROM gifs WHERE id = $1', [request.params.id])
-      .then((data2) => {
-        response.status(201).json({
-          "status":"success",
-          "data":data2.rows[0]
+    if ((data.rows[0].userid != request.body.currUserId) && (Number(request.body.currUserRole) !== 1)) {
+      response.status(201).json({
+        "status":"Access denied!",
+      });
+    } else {   
+      dbconn.query('SELECT * FROM gifs WHERE id = $1', [request.params.id])
+      .then((data) => {
+        const gifUrl = data.rows[0].image;
+        cloud.uploader.destroy(gifUrl, function(result) {  
+          dbconn.query('DELETE FROM gifs WHERE id = $1', [request.params.id])
+          .then((data2) => {
+            response.status(201).json({
+              "status":"success",
+              "data":data2.rows[0]
+            });
+          })
+          .catch((error) => {
+            response.status(500).json({
+              "status":"Error, Could not delete record!"
+            });
+          });
         });
       })
       .catch((error) => {
@@ -138,13 +150,10 @@ exports.deleteGif = (request, response, next) => {
           error:error
         });
       });
-    });
-  })
-  .catch((error) => {
+    }
+  }).catch((error) => {
     response.status(500).json({
-      error:error
+      "status":"Error, Could not Resolve Item to delete!"
     });
   });
 };
-
-

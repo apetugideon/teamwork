@@ -2,6 +2,7 @@ const dbconn = require('.././dbconn');
 
 
 exports.getAllArticles = (request, response, next) => {
+  console.log(request.body)
   dbconn.query('SELECT * FROM articles')
   .then((data) => {
     const articles = data.rows
@@ -9,7 +10,7 @@ exports.getAllArticles = (request, response, next) => {
   })
   .catch(error => {
     response.status(500).json({
-      error:error
+      "status":"Error, Could not fetch record!"
     });
   });
 };
@@ -34,7 +35,7 @@ exports.createArticle = (request, res, next) => {
   })
   .catch((error) => {
     res.status(500).json({
-      error: error
+      "status":"Error, Could not save!"
     });
   });
 };
@@ -50,7 +51,7 @@ exports.getOneArticle = (request, response, next) => {
   })
   .catch((error) => {
     response.status(500).json({
-      error:error
+      "status":"Error, Could not fetch record!"
     });
   });
 };
@@ -67,8 +68,7 @@ exports.modifyArticle = (request, response, next) => {
     article,
     title,
     userid,
-    categoryid
-,
+    categoryid,
     id
   ])
   .then((data) => {
@@ -79,23 +79,36 @@ exports.modifyArticle = (request, response, next) => {
   })
   .catch((error) => {
     response.status(500).json({
-      error: error
+      "status":"Error, Could not Resolve Item to update!"
     });
   });
 };
 
 
 exports.deleteArticle = (request, response, next) => {
-  dbconn.query('DELETE FROM articles WHERE id = $1', [request.params.id])
+  dbconn.query('SELECT id, userid FROM articles WHERE id = $1', [request.params.id])
   .then((data) => {
-    response.status(201).json({
-      "status":"success",
-      "data":data.rows[0]
-    });
-  })
-  .catch((error) => {
+    if ((data.rows[0].userid != request.body.currUserId) && (Number(request.body.currUserRole) !== 1)) {
+      response.status(201).json({
+        "status":"Access denied, Kindly Consult the App Admin!",
+      });
+    } else {
+      dbconn.query('DELETE FROM articles WHERE id = $1', [request.params.id])
+      .then((data) => {
+        response.status(201).json({
+          "status":"success",
+          "data":data.rows[0]
+        });
+      })
+      .catch((error) => {
+        response.status(500).json({
+          "status":"Error, Could not Delete"
+        });
+      });
+    }
+  }).catch((error) => {
     response.status(500).json({
-      error:error
+      "status":"Error, Could not Resolve Item to delete!"
     });
   });
 };
