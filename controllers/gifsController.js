@@ -15,8 +15,7 @@ exports.getAllGifs = (request, response, next) => {
 };
 
 exports.createGif = (request, res, next) => {
-  console.log(request.file);
-  console.log(request);
+  console.log("file ==== ", request.file);
   if (request.file) {
     cloud.uploader.upload(request.file.path, (error, result) => {
       //const image = request.body.image;
