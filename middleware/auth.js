@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 
 module.exports = (request, response, next) => {
-  console.log("payLoadParam == ", request);
   if (request.body.fromtest === true) {
     next();
   } else {
@@ -22,7 +21,6 @@ module.exports = (request, response, next) => {
         next();
       }
     } catch (e) {
-      console.log("e == ", e);
       response.status(401).json({
         error: 'You do not have the Access right to perform this Action!',
       });
