@@ -17,6 +17,8 @@ exports.getAllGifs = (request, response, next) => {
 exports.createGif = (request, res, next) => {
   if (request.file) {
     cloud.uploader.upload(request.file.path, (error, result) => {
+      console.log(result);
+      //const image = request.body.image;
       const title = request.body.title;
       const userid = request.body.userid;
       const imageUrl = result.url;
@@ -46,8 +48,32 @@ exports.createGif = (request, res, next) => {
       });
     });
   } else {
-    return res.status(500).json({
-      "message":"No gif to Upload!"
+    const title = request.body.title;
+    const userid = request.body.userid;
+    const imageUrl = "No gif";
+    dbconn.query('INSERT INTO gifs (image,title,userid) VALUES ($1, $2, $3) RETURNING id', [
+      imageUrl,
+      title,
+      userid
+    ])
+    .then((data) => {
+      const gifId = data.rows[0].id;
+      const createdOn = data.rows[0].createdon;
+      return res.status(201).json({
+        status: 'success',
+        data: {
+          gifId,
+          message: 'GIF image successfully posted',
+          createdOn,
+          title,
+          imageUrl,
+        }
+      });
+    })
+    .catch((error) => {
+      return res.status(500).json({
+        "status":"Error, Could not save record!"
+      });
     });
   }
 };
