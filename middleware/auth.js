@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 module.exports = (request, response, next) => {
+  console.log("payLoadParam == ", request);
   try {
     const token = request.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
@@ -8,7 +9,7 @@ module.exports = (request, response, next) => {
 
     const payLoadParam = userId.split("!~+=");
 
-    console.log("payLoadParam", payLoadParam);
+    
 
     if ((request.body.userId) && (request.body.userId !== payLoadParam[0])) {
       response.status(401).json({
@@ -20,6 +21,7 @@ module.exports = (request, response, next) => {
       next();
     }
   } catch (e) {
+    console.log("e == ", e);
     response.status(401).json({
       error: 'You do not have the Access right to perform this Action!',
     });

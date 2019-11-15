@@ -25,7 +25,6 @@ describe ("Setup Test User", function() {
     })
     .end((err, res) => {
 
-      console.log(res);
       //Test User Token
       const token = res.body.data.token;
 
