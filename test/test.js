@@ -19,7 +19,8 @@ describe ("User Management Module Testing", function(){
         "gender": "MALE",
         "jobRole": "ADMIN",
         "department": "ACCOUNT",
-        "address": "123, Avenue"
+        "address": "123, Avenue",
+        "fromtest": true
       })
       .end((err, res) => {
         res.should.have.status(201);

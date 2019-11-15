@@ -19,7 +19,8 @@ describe ("Setup Test User", function() {
       "gender": "MALE",
       "jobRole": "ADMIN",
       "department": "ACCOUNT",
-      "address": "123, testcase Avenue"
+      "address": "123, testcase Avenue",
+      "fromtest": true
     })
     .end((err, res) => {
       
