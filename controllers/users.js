@@ -19,7 +19,7 @@ exports.signup = (req, res, next) => {
         const userId = data.rows[0].id;
         const payLoadParam = userId +"!~+="+ (req.body.jobRole.trim() === "ADMIN" ? 1 : 0);
         const token = jwt.sign({userId:payLoadParam}, 'RANDOM_TOKEN_SECRET', {expiresIn:'24h'});
-        res.status(201).json({
+        return res.status(201).json({
           "status":"success",
           "data":{
             "message":"User account successfully created",
@@ -29,7 +29,7 @@ exports.signup = (req, res, next) => {
         });
       })
       .catch((error) => {
-        res.status(500).json({
+        return res.status(500).json({
           error: error
         });
       });
@@ -50,13 +50,13 @@ exports.signin = (request, response, next) => {
       const user = data.rows[0];
       bcrypt.compare(request.body.password, user.password).then((valid) => {
         if (!valid) {
-          response.status(401).json({
+          return response.status(401).json({
             error: new Error('Incorrect Password')
           });
         }
         const payLoadParam = user.id +"!~+="+ (user.jobrole.trim() === "ADMIN" ? 1 : 0);
         const token = jwt.sign({userId:payLoadParam}, 'RANDOM_TOKEN_SECRET', {expiresIn:'24h'});
-        response.status(200).json({
+        return response.status(200).json({
           "status":"success",
           "data":{
             "token":token,
@@ -65,13 +65,13 @@ exports.signin = (request, response, next) => {
         });
       })
       .catch((error) => {
-        response.status(401).json({
+        return response.status(401).json({
           error: 'Incorrect Password'
         });
       });
     })
     .catch((error) => {
-      response.status(500).json({
+      return response.status(500).json({
         error:"Error, Signin fails, contact admin!"
       });  
     });
