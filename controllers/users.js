@@ -44,7 +44,6 @@ exports.signup = (req, res, next) => {
 
 exports.signin = (request, response, next) => {
   try {
-    //console.log(request.body.email, request.body.password);
     dbconn.query('SELECT * FROM users WHERE email = $1', [request.body.email])
     .then((data) => {
       const user = data.rows[0];

@@ -8,7 +8,6 @@ module.exports = (request, response, next) => {
       const token = request.headers.authorization.split(' ')[1];
       const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
       const { userId } = decodedToken;
-  
       const payLoadParam = userId.split("!~+=");
   
       if ((request.body.userId) && (request.body.userId !== payLoadParam[0])) {
