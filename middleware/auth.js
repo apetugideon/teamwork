@@ -8,6 +8,8 @@ module.exports = (request, response, next) => {
 
     const payLoadParam = userId.split("!~+=");
 
+    console.log("payLoadParam", payLoadParam);
+
     if ((request.body.userId) && (request.body.userId !== payLoadParam[0])) {
       response.status(401).json({
         error: 'Wrong User Credentials',
