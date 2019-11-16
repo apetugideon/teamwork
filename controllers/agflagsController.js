@@ -82,16 +82,29 @@ exports.modifyAgflag = (request, response, next) => {
 
 
 exports.deleteAgflag = (request, response, next) => {
-  dbconn.query('DELETE FROM agflags WHERE id = $1', [request.params.id])
+  dbconn.query('SELECT id, userid FROM agflags WHERE id = $1', [request.params.id])
   .then((data) => {
-    response.status(201).json({
-      "status":"success",
-      "data":data.rows[0]
-    });
-  })
-  .catch((error) => {
+    if ((data.rows[0].userid != request.body.currUserId)) {
+      response.status(201).json({
+        "status":"Access denied, Kindly Consult the App Admin!",
+      });
+    } else {
+      dbconn.query('DELETE FROM agflags WHERE id = $1', [request.params.id])
+      .then((data) => {
+        response.status(201).json({
+          "status":"success",
+          "data":data.rows[0]
+        });
+      })
+      .catch((error) => {
+        response.status(500).json({
+          error:error
+        });
+      });
+    }
+  }).catch((error) => {
     response.status(500).json({
-      error:error
+      "status":"Error, Could not Resolve Item to delete!"
     });
   });
 };
