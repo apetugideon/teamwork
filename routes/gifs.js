@@ -7,10 +7,9 @@ const multer = require('../middleware/multer-config');
 const gifsController = require('../controllers/gifsController');
 
 router.post('/', auth, multer, gifsController.createGif);
-//router.post('/', auth, gifsController.createGif);
 router.delete('/:id', auth, gifsController.deleteGif);
 router.get('/', auth, gifsController.getAllGifs);
-router.put('/:id', auth, gifsController.modifyGif);
+router.put('/:id', auth, multer, gifsController.modifyGif);
 router.get('/:id', auth, gifsController.getOneGif);
 
 module.exports = router;

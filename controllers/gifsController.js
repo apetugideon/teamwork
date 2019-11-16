@@ -17,8 +17,6 @@ exports.getAllGifs = (request, response, next) => {
 exports.createGif = (request, res, next) => {
   if (request.file) {
     cloud.uploader.upload(request.file.path, (error, result) => {
-      console.log(result);
-      //const image = request.body.image;
       const title = request.body.title;
       const userid = request.body.userid;
       const imageUrl = result.url;
@@ -109,14 +107,12 @@ exports.modifyGif = (request, res, next) => {
         id
       ])
       .then((data) => {
-        const gifId = data.rows[0].id;
-        const createdOn = data.rows[0].createdon;
+        const gifId = id;
         return res.status(201).json({
           status: 'success',
           data: {
             gifId,
             message: 'GIF image successfully Updated',
-            createdOn,
             title,
             imageUrl,
           }
@@ -140,14 +136,12 @@ exports.modifyGif = (request, res, next) => {
       id
     ])
     .then((data) => {
-      const gifId = data.rows[0].id;
-      const createdOn = data.rows[0].createdon;
+      const gifId = id;
       return res.status(201).json({
         status: 'success',
         data: {
           gifId,
           message: 'GIF image successfully Updated',
-          createdOn,
           title,
           imageUrl,
         }
@@ -167,7 +161,7 @@ exports.deleteGif = (request, response, next) => {
   .then((data) => {
     if ((data.rows[0].userid != request.body.currUserId) && (Number(request.body.currUserRole) !== 1)) {
       response.status(201).json({
-        "status":"Access denied!",
+        "status":"Access denied, You need Admin Access to delete others Gifs!",
       });
     } else {   
       dbconn.query('SELECT * FROM gifs WHERE id = $1', [request.params.id])
