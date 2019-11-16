@@ -21,7 +21,7 @@ const getTable = () => {
     recs.forEach((item, pos) => {
       if (item.schemaname === 'public') {
         if (item.tablename != 'gifs' || item.tablename != 'user') {
-          if (item.tablename == 'comments') {
+          if (item.tablename == 'agflags') {
             makeTesting(item.tablename);
             makeRoute(item.tablename);
             makeController(item.tablename);
