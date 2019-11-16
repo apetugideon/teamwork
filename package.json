@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "test": "mocha --exit",
-    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls",
     "lint": "./node_modules/.bin/eslint"
   },
   "license": "ISC",
