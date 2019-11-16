@@ -20,8 +20,7 @@ describe ("Setup Test User", function() {
       "gender": "MALE",
       "jobRole": "ADMIN",
       "department": "ACCOUNT",
-      "address": "123, testcase Avenue",
-      "fromtest": true
+      "address": "123, testcase Avenue"
     })
     .end((err, res) => {
 
@@ -56,7 +55,8 @@ describe ("Setup Test User", function() {
               posttype:  'Testing',
               userid:  1,
               createdon:  '2019-11-04 22:56:48',
-              updatedon:  '2019-11-04 22:56:48'
+              updatedon:  '2019-11-04 22:56:48',
+              comment:  'Testing'
             };
             chai.request(server)
             .post('/api/v1/comments')
@@ -76,6 +76,7 @@ describe ("Setup Test User", function() {
               posttype:  'Testing',
               createdon:  '2019-11-04 22:56:48',
               updatedon:  '2019-11-04 22:56:48',
+              comment:  'Testing',
               postid:  1
             };
             chai.request(server)
@@ -96,6 +97,7 @@ describe ("Setup Test User", function() {
               posttype:'Testing',
               createdon:'2019-11-04 22:56:48',
               updatedon:'2019-11-04 22:56:48',
+              comment:'Testing',
               postid:1,
               userid:1
             };
@@ -136,6 +138,7 @@ describe ("Setup Test User", function() {
                     posttype:'Testing',
                     createdon:'2019-11-04 22:56:48',
                     updatedon:'2019-11-04 22:56:48',
+                    comment:'Testing',
                     postid:1,
                     userid:1
                   }
