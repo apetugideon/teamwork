@@ -84,7 +84,7 @@ exports.modifyAgflag = (request, response, next) => {
 exports.deleteAgflag = (request, response, next) => {
   dbconn.query('SELECT id, userid FROM agflags WHERE id = $1', [request.params.id])
   .then((data) => {
-    if ((data.rows[0].userid != request.body.currUserId)) {
+    if ((data.rows[0].userid != request.body.currUserId) && (Number(request.body.currUserRole) !== 1)) {
       response.status(201).json({
         "status":"Access denied, Kindly Consult the App Admin!",
       });

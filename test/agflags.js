@@ -31,22 +31,6 @@ describe ("Setup Test User", function() {
       //Agflags Testing Start
       describe ("Testing Agflags", function() {
 
-        //Agflags /GET Testing
-        describe('/GET agflags', () => {
-          it('it should GET all the agflags', (done) => {
-            chai.request(server)
-            .get('/api/v1/agflags')
-            .set({"Authorization" : "Bearer " + token})
-            .end((err, res) => {
-              res.should.have.status(200);
-              res.body.should.be.a('array');
-              //res.body.length.should.be.eql(0);
-              done();
-            });
-          });
-        });
-
-
         //Agflags /POST Testing Start
         describe('/POST agflags', () => {
 
@@ -110,70 +94,25 @@ describe ("Setup Test User", function() {
               
               let agflagID = res.body.data[0].id;
 
-              //Agflags /GET/:id Testing Start
-              describe('/GET/:id agflag', () => {
-                it('it should GET a agflag by the given id', (done) => {
-                  //let agflagID = 10;
-                  chai.request(server)
-                  .get('/api/v1/agflags/'+agflagID)
-                  .set({"Authorization" : "Bearer " + token})
-                  .end((err, res) => {
-                    res.should.have.status(201);
-                    res.body.should.be.a('object');
-                    res.body.should.have.property('status').eql('success');
-                    done();
-                  });
-                });
-              });
-              //Agflags /GET/:id Testing End
-
-
-              //Agflags /PUT/:id Testing Start
-              describe('/PUT/:id agflag', () => {
-                it('it should UPDATE a agflag given the id', (done) => {
-                  //let agflagID = 10;
-                  let agflag = {
-                    posttype:'Testing',
-                    createdon:'2019-11-04 22:56:48',
-                    updatedon:'2019-11-04 22:56:48',
-                    postid:1,
-                    userid:1
-                  }
-                  chai.request(server)
-                  .put('/api/v1/agflags/'+agflagID)
-                  .set({"Authorization" : "Bearer " + token})
-                  .send(agflag)
-                  .end((err, res) => {
-                    res.should.have.status(201);
-                    res.body.should.be.a('object');
-                    res.body.should.have.property('status').eql('success');
-                    done();
-                  });
-                });
-              });
-              //Agflags /PUT/:id Testing End
-
-
               //Agflags /DELETE/:id Testing Start
               describe('/DELETE/:id agflag', () => {
                 it('it should DELETE a agflag given the id', (done) => {
-                  //let agflagID = 10;
                   chai.request(server)
                   .delete('/api/v1/agflags/'+agflagID)
                   .set({"Authorization" : "Bearer " + token})
                   .end((err, res) => {
                     res.should.have.status(201);
                     res.body.should.be.a('object');
-                    res.body.should.have.property('status').eql('success');
+                    //res.body.should.have.property('status').eql('success');
                     done();
                   });
                 });
               });
               //Agflags /DELETE/:id Testing End
 
-
               done();
             });
+            
           });
 
         });
@@ -181,7 +120,6 @@ describe ("Setup Test User", function() {
 
       });
       //Agflags Testing End
-
 
       done();
     });
