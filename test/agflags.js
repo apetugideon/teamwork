@@ -68,7 +68,7 @@ describe ("Setup Test User", function() {
           });
 
 
-          //Agflags /POST Testing without userid
+          /*//Agflags /POST Testing without userid
           it('it should not POST a agflag without userid field', (done) => {
             let agflag = {
               posttype:  'Testing',
@@ -85,7 +85,7 @@ describe ("Setup Test User", function() {
               res.body.should.be.a('object');
               done();
             });
-          });
+          });*/
 
 
           //Final Agflags /POST Testing
