@@ -46,10 +46,8 @@ describe ("Setup Test User", function() {
           });
         });
 
-
         //Agflags /POST Testing Start
         describe('/POST agflags', () => {
-
           //Agflags /POST Testing without postid
           it('it should not POST a agflag without postid field', (done) => {
             let agflag = {
@@ -113,7 +111,6 @@ describe ("Setup Test User", function() {
               //Agflags /GET/:id Testing Start
               describe('/GET/:id agflag', () => {
                 it('it should GET a agflag by the given id', (done) => {
-                  //let agflagID = 10;
                   chai.request(server)
                   .get('/api/v1/agflags/'+agflagID)
                   .set({"Authorization" : "Bearer " + token})
@@ -127,11 +124,9 @@ describe ("Setup Test User", function() {
               });
               //Agflags /GET/:id Testing End
 
-
               //Agflags /PUT/:id Testing Start
               describe('/PUT/:id agflag', () => {
                 it('it should UPDATE a agflag given the id', (done) => {
-                  //let agflagID = 10;
                   let agflag = {
                     posttype:'Testing',
                     createdon:'2019-11-04 22:56:48',
@@ -153,11 +148,9 @@ describe ("Setup Test User", function() {
               });
               //Agflags /PUT/:id Testing End
 
-
               //Agflags /DELETE/:id Testing Start
               describe('/DELETE/:id agflag', () => {
                 it('it should DELETE a agflag given the id', (done) => {
-                  //let agflagID = 10;
                   chai.request(server)
                   .delete('/api/v1/agflags/'+agflagID)
                   .set({"Authorization" : "Bearer " + token})
@@ -170,10 +163,10 @@ describe ("Setup Test User", function() {
                 });
               });
               //Agflags /DELETE/:id Testing End
-
-
               done();
+
             });
+
           });
 
         });
@@ -182,8 +175,10 @@ describe ("Setup Test User", function() {
       });
       //Agflags Testing End
 
-
       done();
+
     });
+
   });
+
 });

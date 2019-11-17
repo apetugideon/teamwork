@@ -19,7 +19,7 @@ app.use((request, response, next) => {
 
 app.use(bodyParser.json());
 
-app.get('/app', (req, res) => res.send({
+app.get('/app.js', (req, res) => res.send({
   status: 200,
   message: 'Welcome to teamWork by Apetu Gideon',
 }));
