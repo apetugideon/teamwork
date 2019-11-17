@@ -5,7 +5,7 @@ let server = require("../server");
 let should = chai.should();
 chai.use(chaiHttp);
 
-//server = "https://teamwork-heroku-staging.herokuapp.com";
+server = "https://teamwork-heroku-staging.herokuapp.com";
 
 describe ("User Management Module Testing", function(){
   it("Should Should Create A New User", (done) => {
