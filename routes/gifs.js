@@ -12,4 +12,7 @@ router.get('/', auth, gifsController.getAllGifs);
 router.put('/:id', auth, multer, gifsController.modifyGif);
 router.get('/:id', auth, gifsController.getOneGif);
 
+//Comment
+router.post('/:id/comment', auth, gifsController.createCommentGif);
+
 module.exports = router;

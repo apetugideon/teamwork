@@ -10,5 +10,8 @@ router.get('/:id', auth, articlesController.getOneArticle);
 router.put('/:id', auth, articlesController.modifyArticle);
 router.delete('/:id', auth, articlesController.deleteArticle);
 
+//Comment
+router.post('/:id/comment', auth, articlesController.createCommentArticle);
+
 module.exports = router;
 

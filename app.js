@@ -5,7 +5,6 @@ const userRoutes = require('./routes/users');
 const gifRoutes = require('./routes/gifs');
 const categoryRoutes = require('./routes/categories');
 const articleRoutes = require('./routes/articles');
-const commentRoutes = require('./routes/comments');
 const feedRoutes = require('./routes/feed');
 const agflagRoutes = require('./routes/agflags');
 
@@ -20,10 +19,14 @@ app.use((request, response, next) => {
 
 app.use(bodyParser.json());
 
+app.get('/app', (req, res) => res.send({
+  status: 200,
+  message: 'Welcome to teamWork by Apetu Gideon',
+}));
+
 app.use('/api/v1/auth', userRoutes); 
 app.use('/api/v1/categories', categoryRoutes);
 app.use('/api/v1/articles', articleRoutes);
-app.use('/api/v1/comments', commentRoutes);
 app.use('/api/v1/agflags', agflagRoutes);
 app.use('/api/v1/gifs', gifRoutes);
 app.use('/api/v1/feed', feedRoutes);

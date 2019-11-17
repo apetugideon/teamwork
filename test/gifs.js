@@ -5,7 +5,7 @@ let server = require("../server");
 let should = chai.should();
 chai.use(chaiHttp);
 
-server = "https://teamwork-heroku-staging.herokuapp.com";
+//server = "https://teamwork-heroku-staging.herokuapp.com";
 
 describe ("Setup Test User", function() {
   it("Should Create A New Test User", (done) => {
@@ -50,7 +50,7 @@ describe ("Setup Test User", function() {
         describe('/POST gifs', () => {
 
           //Gifs /POST Testing without image
-          /*it('it should not POST a gif without image field', (done) => {
+          it('it should not POST a gif without image field', (done) => {
             let gif = {
               title:  'Testing',
               userid:  1,
@@ -66,7 +66,7 @@ describe ("Setup Test User", function() {
               res.body.should.be.a('object');
               done();
             });
-          });*/
+          });
 
 
           //Gifs /POST Testing without title
@@ -89,39 +89,16 @@ describe ("Setup Test User", function() {
           });
 
 
-          //Gifs /POST Testing without userid
-          it('it should not POST a gif without userid field', (done) => {
-            let gif = {
-              createdon:  '2019-11-04 22:56:48',
-              updatedon:  '2019-11-04 22:56:48',
-              image:  'Testing',
-              title:  'Testing'
-            };
-            chai.request(server)
-            .post('/api/v1/gifs')
-            .set({"Authorization" : "Bearer " + token})
-            .send(gif)
-            .end((err, res) => {
-              res.should.have.status(500);
-              res.body.should.be.a('object');
-              done();
-            });
-          });
-
-
           //Final Gifs /POST Testing
           it('it should POST a gif ', (done) => {
-            let gif = {
-              createdon:'2019-11-04 22:56:48',
-              updatedon:'2019-11-04 22:56:48',
-              image:'Testing',
-              title:'Testing',
-              userid:1
-            };
             chai.request(server)
             .post('/api/v1/gifs')
-            .send(gif)
             .set({"Authorization" : "Bearer " + token})
+            .set('Content-Type', 'multipart/form-data')
+            .field('createdon', '2019-11-04 22:56:48')
+            .field('updatedon', '2019-11-04 22:56:48')
+            .field('title', 'Testing Gif upload')
+            .attach('image', '././images/dancing-banana.gif')
             .end((err, res) => {
               res.should.have.status(201);
               res.body.should.be.a('object');
@@ -132,7 +109,6 @@ describe ("Setup Test User", function() {
               //Gifs /GET/:id Testing Start
               describe('/GET/:id gif', () => {
                 it('it should GET a gif by the given id', (done) => {
-                  //let gifID = 10;
                   chai.request(server)
                   .get('/api/v1/gifs/'+gifID)
                   .set({"Authorization" : "Bearer " + token})
@@ -145,7 +121,6 @@ describe ("Setup Test User", function() {
                 });
               });
               //Gifs /GET/:id Testing End
-
 
               //Gifs /PUT/:id Testing Start
               describe('/PUT/:id gif', () => {
@@ -172,16 +147,39 @@ describe ("Setup Test User", function() {
               });
               //Gifs /PUT/:id Testing End
 
+              //Gifs /POST/:id/comment Testing Start
+              describe('Should post Gifs comment', () => {
+                it('it should Should post Gifs comment', (done) => {
+                  chai.request(server)
+                  .post('/api/v1/gifs/'+gifID+'/comment')
+                  .set({"Authorization" : "Bearer " + token})
+                  .send({comment:"this is a test comment"})
+                  .end((err, res) => {
+                    res.should.have.status(201);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('status').eql('success');
+
+                    dbconn.query('DELETE FROM comments WHERE id = $1', [res.body.id])
+                    .then((data) => {
+                      console.log("Test Comment Deleted");
+                    })
+                    .catch((error) => {
+                      console.log("Test Comment Not Deleted");
+                    });
+
+                    done();
+                  });
+                });
+              });
+              //Gifs /POST/:id/comment Testing Start
 
               //Gifs /DELETE/:id Testing Start
               describe('/DELETE/:id gif', () => {
                 it('it should DELETE a gif given the id', (done) => {
-                  //let gifID = 10;
                   chai.request(server)
                   .delete('/api/v1/gifs/'+gifID)
                   .set({"Authorization" : "Bearer " + token})
                   .end((err, res) => {
-                    //console.log(res);
                     res.should.have.status(201);
                     res.body.should.be.a('object');
                     res.body.should.have.property('status').eql('success');
@@ -200,9 +198,9 @@ describe ("Setup Test User", function() {
               });
               //Gifs /DELETE/:id Testing End
 
-
               done();
             });
+
           });
 
         });

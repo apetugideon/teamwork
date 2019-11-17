@@ -1,5 +1,6 @@
 const cloud = require('.././cloudImagesConf');
 const dbconn = require('.././dbconn');
+const jwt = require('jsonwebtoken');
 
 exports.getAllGifs = (request, response, next) => {
   dbconn.query('SELECT * FROM gifs')
@@ -16,11 +17,28 @@ exports.getAllGifs = (request, response, next) => {
 
 exports.createGif = (request, res, next) => {
   if (request.file) {
+    if (!request.body.currUserId) {
+      const token = request.headers.authorization.split(' ')[1];
+      const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
+      const { userId } = decodedToken;
+      const payLoadParam = userId.split("!~+=");
+
+      request.body.currUserId = payLoadParam[0];
+      request.body.currUserRole = payLoadParam[1];
+    }
+
+    if (request.file.mimetype != "image/gif") {
+      return res.status(500).json({
+        status: 'failed',
+        "message":"Image file is not Gif!"
+      });
+    }
+
     cloud.uploader.upload(request.file.path, (error, result) => {
       const title = request.body.title;
-      const userid = request.body.userid;
+      const userid = request.body.currUserId;
       const imageUrl = result.url;
-      dbconn.query('INSERT INTO gifs (image,title,userid) VALUES ($1, $2, $3) RETURNING id', [
+      dbconn.query('INSERT INTO gifs (image,title,userid) VALUES ($1, $2, $3) RETURNING id,createdon', [
         imageUrl,
         title,
         userid
@@ -35,7 +53,7 @@ exports.createGif = (request, res, next) => {
             message: 'GIF image successfully posted',
             createdOn,
             title,
-            imageUrl,
+            imageUrl
           }
         });
       })
@@ -44,34 +62,16 @@ exports.createGif = (request, res, next) => {
           "status":"Error, Could not save record!"
         });
       });
-    });
-  } else {
-    const title = request.body.title;
-    const userid = request.body.userid;
-    const imageUrl = "No gif";
-    dbconn.query('INSERT INTO gifs (image,title,userid) VALUES ($1, $2, $3) RETURNING id', [
-      imageUrl,
-      title,
-      userid
-    ])
-    .then((data) => {
-      const gifId = data.rows[0].id;
-      const createdOn = data.rows[0].createdon;
-      return res.status(201).json({
-        status: 'success',
-        data: {
-          gifId,
-          message: 'GIF image successfully posted',
-          createdOn,
-          title,
-          imageUrl,
-        }
-      });
     })
     .catch((error) => {
       return res.status(500).json({
-        "status":"Error, Could not save record!"
+        "status":"failed",
+        "message":error
       });
+    });;
+  } else {
+    return res.status(500).json({
+      "message":"No Gif image to upload"
     });
   }
 };
@@ -97,7 +97,7 @@ exports.modifyGif = (request, res, next) => {
   if (request.file) {
     cloud.uploader.upload(request.file.path, (error, result) => {
       const title = request.body.title;
-      const userid = request.body.userid;
+      const userid = request.body.currUserId;
       const imageUrl = result.url;
       const id = request.params.id;
       dbconn.query('UPDATE gifs SET image=$1, title=$2, userid=$3 WHERE id=$4', [
@@ -126,7 +126,7 @@ exports.modifyGif = (request, res, next) => {
     });
   } else {
     const title = request.body.title;
-    const userid = request.body.userid;
+    const userid = request.body.currUserId;
     const imageUrl = "No gif";
     const id = request.params.id;
     dbconn.query('UPDATE gifs SET image=$1, title=$2, userid=$3 WHERE id=$4', [
@@ -171,26 +171,66 @@ exports.deleteGif = (request, response, next) => {
           dbconn.query('DELETE FROM gifs WHERE id = $1', [request.params.id])
           .then((data2) => {
             response.status(201).json({
-              "status":"success",
-              "data":data2.rows[0]
+              status: 'success',
+              data: {
+                message: 'Gif post successfully deleted'
+              }
             });
           })
           .catch((error) => {
             response.status(500).json({
-              "status":"Error, Could not delete record!"
+              "message":"Error, Could not delete record!",
+              error: error
             });
           });
         });
       })
       .catch((error) => {
         response.status(500).json({
-          "message":error
+          "message":"Error, Could not delete record!",
+          error: error
         });
       });
     }
   }).catch((error) => {
     response.status(500).json({
-      "status":"Error, Could not Resolve Item to delete!"
+      "message":"Error, Could not delete record!",
+      error: error
+    });
+  });
+};
+
+exports.createCommentGif = (request, res, next) => {
+  let gifId = request.params.id;
+  let posttype = "GIF";
+  let userid = request.body.currUserId;
+  let comment = request.body.comment;
+  dbconn.query('SELECT title FROM gifs WHERE id = $1', [gifId])
+  .then((gifdata) => {
+    let gifTitle = gifdata.rows[0].title;
+    dbconn.query('INSERT INTO comments (postid,posttype,userid,comment) VALUES ($1, $2, $3, $4) RETURNING comment,createdon,id', [
+      gifId,
+      posttype,
+      userid,
+      comment
+    ])
+    .then((commdata) => {
+      commdata.rows[0].message = "comment successfully created";
+      commdata.rows[0].gifTitle = gifTitle;
+      res.status(201).json({
+        "status":"success",
+        "data":commdata.rows[0]
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        error: error
+      });
+    });
+  })
+  .catch((error) => {
+    response.status(500).json({
+      "status":"Error, Could not fetch record!"
     });
   });
 };

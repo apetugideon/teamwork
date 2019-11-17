@@ -6,7 +6,7 @@ let should = chai.should();
 chai.use(chaiHttp);
 
 
-server = "https://teamwork-heroku-staging.herokuapp.com";
+//server = "https://teamwork-heroku-staging.herokuapp.com";
 
 describe ("Setup Test User", function() {
   it("Should Create A New Test User", (done) => {
@@ -91,28 +91,6 @@ describe ("Setup Test User", function() {
             });
           });
 
-
-          //Articles /POST Testing without userid
-          it('it should not POST a article without userid field', (done) => {
-            let article = {
-              categoryid:  1,
-              createdon:  '2019-11-04 22:56:48',
-              updatedon:  '2019-11-04 22:56:48',
-              article:  'Testing',
-              title:  'Testing'
-            };
-            chai.request(server)
-            .post('/api/v1/articles')
-            .set({"Authorization" : "Bearer " + token})
-            .send(article)
-            .end((err, res) => {
-              res.should.have.status(500);
-              res.body.should.be.a('object');
-              done();
-            });
-          });
-
-
           //Final Articles /POST Testing
           it('it should POST a article ', (done) => {
             let article = {
@@ -128,12 +106,11 @@ describe ("Setup Test User", function() {
             .send(article)
             .set({"Authorization" : "Bearer " + token})
             .end((err, res) => {
-              //console.log(res);
               res.should.have.status(201);
               res.body.should.be.a('object');
               res.body.should.have.property('status').eql('success');
               
-              let articleID = res.body.data[0].id;
+              let articleID = res.body.data.articleId;
 
               //Articles /GET/:id Testing Start
               describe('/GET/:id article', () => {
@@ -179,6 +156,31 @@ describe ("Setup Test User", function() {
               });
               //Articles /PUT/:id Testing End
 
+              //Articles /POST/:id/comment Testing Start
+              describe('Should post Articles comment', () => {
+                it('it should Should post Articles comment', (done) => {
+                  chai.request(server)
+                  .post('/api/v1/articles/'+articleID+'/comment')
+                  .set({"Authorization" : "Bearer " + token})
+                  .send({comment:"this is a test comment"})
+                  .end((err, res) => {
+                    res.should.have.status(201);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('status').eql('success');
+
+                    dbconn.query('DELETE FROM comments WHERE id = $1', [res.body.id])
+                    .then((data) => {
+                      console.log("Test Comment Deleted");
+                    })
+                    .catch((error) => {
+                      console.log("Test Comment Not Deleted");
+                    });
+
+                    done();
+                  });
+                });
+              });
+              //Articles /POST/:id/comment Testing Start
 
               //Articles /DELETE/:id Testing Start
               describe('/DELETE/:id article', () => {

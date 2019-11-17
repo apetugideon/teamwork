@@ -22,9 +22,9 @@ exports.signup = (req, res, next) => {
         return res.status(201).json({
           "status":"success",
           "data":{
-            "message":"User account successfully created",
             "token":token,
-            "userId":userId
+            "userId":userId,
+            "message":"User account successfully created"
           }
         });
       })

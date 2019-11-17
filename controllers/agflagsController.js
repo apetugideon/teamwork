@@ -1,6 +1,5 @@
 const dbconn = require('.././dbconn');
 
-
 exports.getAllAgflags = (request, response, next) => {
   dbconn.query('SELECT * FROM agflags')
   .then((data) => {
@@ -18,7 +17,6 @@ exports.createAgflag = (request, res, next) => {
   let postid = request.body.postid;
   let posttype = request.body.posttype;
   let userid = request.body.userid;
-
   dbconn.query('INSERT INTO agflags (postid,posttype,userid) VALUES ($1, $2, $3) RETURNING id', [
     postid,
     posttype,
@@ -37,7 +35,6 @@ exports.createAgflag = (request, res, next) => {
   });
 };
 
-
 exports.getOneAgflag = (request, response, next) => {
   dbconn.query('SELECT * FROM agflags WHERE id = $1', [request.params.id])
   .then((data) => {
@@ -53,18 +50,15 @@ exports.getOneAgflag = (request, response, next) => {
   });
 };
 
-
 exports.modifyAgflag = (request, response, next) => {
   let postid = request.body.postid;
   let posttype = request.body.posttype;
   let userid = request.body.userid;
   let id = request.params.id;
-
   dbconn.query('UPDATE agflags SET postid=$1, posttype=$2, userid=$3 WHERE id=$4', [
     postid,
     posttype,
-    userid
-,
+    userid,
     id
   ])
   .then((data) => {
@@ -79,7 +73,6 @@ exports.modifyAgflag = (request, response, next) => {
     });
   });
 };
-
 
 exports.deleteAgflag = (request, response, next) => {
   dbconn.query('SELECT id, userid FROM agflags WHERE id = $1', [request.params.id])
